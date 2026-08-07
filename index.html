@@ -1,303 +1,357 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ckb" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anas Gold | Luxury Jewelry</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anas Gold - سیستەمی بەڕێوەبردنی ئاڵتون، زیوو و مس</title>
 
-<style>
-body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background:#0b0b0b;
-    color:white;<script>
-function showSection(type){
-    alert(type.toUpperCase()+" Dashboard (Coming in Part 2)");
-}
-</script>
-}
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Professional Kurdish Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-header{
-    background:linear-gradient(135deg,#000,#3b2a00);
-    padding:50px 20px;
-    text-align:center;
-}
-
-.logo{
-    font-size:45px;
-    color:#d4af37;
-    font-weight:bold;
-    letter-spacing:3px;
-}
-
-header p{
-    color:#eee;
-    font-size:20px;
-}
-<nav>
-<a href="#" onclick="showSection('gold')">🟡 Gold</a>
-<a href="#" onclick="showSection('silver')">⚪ Silver</a>
-<a href="#" onclick="showSection('copper')">🟤 Copper</a>
-</nav>
-}
-
-nav a{
-    color:#d4af37;
-    margin:20px;
-    text-decoration:none;
-    font-size:18px;
-}
-
-sec<section id="dashboard">
-<h1 class="title">Anas Gold Dashboard</h1>
-<p>Choose a category</p>
-
-<div class="cards">
-
-<div class="card" onclick="showSection('gold')">
-<h2>🟡 Gold</h2>
-<p>Open Gold Inventory</p>
-</div>
-
-<div class="card" onclick="showSection('silver')">
-<h2>⚪ Silver</h2>
-<p>Open Silver Inventory</p>
-</div>
-
-<div class="card" onclick="showSection('copper')">
-<h2>🟤 Copper</h2>
-<p>Open Copper Inventory</p>
-</div>
-
-</div>
-</section>
-‌
-
-.title{
-    color:#d4af37;
-    font-size:35px;
-}
-
-.cards{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    flex-wrap:wrap;
-}
-
-.card{
-    background:#151515;
-    border:1px solid #d4af37;
-    border-radius:15px;
-    width:280px;
-    padding:25px;
-    box-shadow:0 0 20px #d4af3740;
-}
-
-.card h2{
-    color:#d4af37;
-}
-
-button{
-    background:#d4af37;
-    border:none;
-    padding:15px 30px;
-    border-radius:30px;
-    font-size:17px;
-    cursor:pointer;
-}
-
-footer{
-    background:#000;
-    padding:25px;
-    text-align:center;
-    color:#aaa;
-}
-</style>
-
+    <style>
+        body {
+            font-family: 'Noto Sans Arabic', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .silver-text {
+            background: linear-gradient(135deg, #e0e0e0, #f5f5f5, #9e9e9e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .copper-text {
+            background: linear-gradient(135deg, #d77a61, #f4a261, #b0523e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
 </head>
+<body class="min-h-screen flex flex-col justify-between">
 
-<body>
+    <!-- Header Section -->
+    <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full gold-gradient p-0.5 flex items-center justify-center shadow-lg shadow-yellow-500/10">
+                    <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-gem text-yellow-500 text-xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-wide gold-text">ANAS GOLD</h1>
+                    <p class="text-xs text-slate-400">سیستەمی پێشکەوتووی بەڕێوەبردنی ئاڵتون و کانزاکان</p>
+                </div>
+            </div>
 
-<header>
-<div class="logo">ANAS GOLD</div>
-<p>Luxury Gold • Silver • Copper Collection</p>
-</header>
+            <!-- Material Selection Tabs -->
+            <div class="flex bg-slate-800/80 p-1.5 rounded-xl border border-slate-700/50 w-full sm:w-auto justify-center">
+                <button onclick="switchTab('gold')" id="tab-gold" class="flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 bg-yellow-500 text-slate-950 shadow-lg">
+                    <i class="fa-solid fa-coins"></i> ئاڵتون
+                </button>
+                <button onclick="switchTab('silver')" id="tab-silver" class="flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-ring"></i> زیوو
+                </button>
+                <button onclick="switchTab('copper')" id="tab-copper" class="flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-cubes"></i> مس
+                </button>
+            </div>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
 
-<nav>
-<a href="#">Home</a>
-<a href="#">Gold</a>
-<a href="#">Silver</a>
-<a href="#">Contact</a>
-</nav>
+        <!-- Dashboard Analytics Cards (4 Main Summary Cards) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <!-- Buy Weight -->
+            <div class="glass-card rounded-2xl p-5 border-r-4 border-emerald-500">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-slate-400 text-sm font-semibold">کۆی کێشی کڕین</span>
+                    <div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-400"><i class="fa-solid fa-arrow-down"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold text-white"><span id="stat-buy-weight">0</span> <span class="text-xs text-slate-400">کگم</span></h3>
+            </div>
 
+            <!-- Sell Weight -->
+            <div class="glass-card rounded-2xl p-5 border-r-4 border-rose-500">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-slate-400 text-sm font-semibold">کۆی کێشی فرۆشتن</span>
+                    <div class="p-2 bg-rose-500/10 rounded-lg text-rose-400"><i class="fa-solid fa-arrow-up"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold text-white"><span id="stat-sell-weight">0</span> <span class="text-xs text-slate-400">کگم</span></h3>
+            </div>
 
-<section>
-<h1 class="title">Welcome To Royal Jewelry</h1>
-<p>
-Discover premium gold, silver and copper products crafted with elegance.
-</p>
+            <!-- Total Buy Price -->
+            <div class="glass-card rounded-2xl p-5 border-r-4 border-blue-500">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-slate-400 text-sm font-semibold">کۆی بڕی کڕین ($)</span>
+                    <div class="p-2 bg-blue-500/10 rounded-lg text-blue-400"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold text-emerald-400">$<span id="stat-buy-total">0</span></h3>
+            </div>
 
-<button>Explore Collection</button>
-</section>
+            <!-- Total Sell Price -->
+            <div class="glass-card rounded-2xl p-5 border-r-4 border-amber-500">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-slate-400 text-sm font-semibold">کۆی بڕی فرۆشتن ($)</span>
+                    <div class="p-2 bg-amber-500/10 rounded-lg text-amber-400"><i class="fa-solid fa-scale-balanced"></i></div>
+                </div>
+                <h3 class="text-2xl font-bold text-amber-400">$<span id="stat-sell-total">0</span></h3>
+            </div>
+        </div>
 
+        <!-- Form and Table Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Entry Form Form -->
+            <div class="glass-card rounded-2xl p-6 h-fit border border-slate-700/60 shadow-xl">
+                <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-slate-700 pb-3">
+                    <i class="fa-solid fa-circle-plus text-yellow-500"></i>
+                    تۆمارکردنی مامەڵەی نوێ
+                </h2>
 
-<section>
-<h1 class="title">Our Products</h1>
+                <form id="transaction-form" onsubmit="handleAddTransaction(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">جۆری مامەڵە</label>
+                        <select id="trans-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-yellow-500 transition-colors">
+                            <option value="buy">کڕین (خەرجی)</option>
+                            <option value="sell">فرۆشتن (داهات)</option>
+                        </select>
+                    </div>
 
-<div class="cards">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">ناوی فرۆشیار / کڕیار</label>
+                        <input type="text" id="trans-name" required placeholder="ناوى سیانی یان شوێن" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
+                    </div>
 
-<div class="card">
-<h2>Gold</h2>
-<p>24K luxury gold products with royal design.</p>
-</div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">کێش (کیلۆگرام)</label>
+                            <input type="number" step="0.001" id="trans-weight" required placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">نرخی یەک کیلۆ ($)</label>
+                            <input type="number" step="0.01" id="trans-price" required placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
+                        </div>
+                    </div>
 
-<div class="card">
-<h2>Silver</h2>
-<p>Elegant silver pieces with modern style.</p>
-</div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">بەروار</label>
+                        <input type="date" id="trans-date" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-yellow-500 transition-colors">
+                    </div>
 
-<div class="card">
-<h2>Copper</h2>
-<p>High quality copper collections.</p>
-</div>
+                    <button type="submit" class="w-full gold-gradient text-slate-950 font-bold py-3 px-4 rounded-xl shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 mt-2">
+                        <i class="fa-solid fa-floppy-disk"></i> تۆمارکردن
+                    </button>
+                </form>
+            </div>
 
-</div>
-</section>
+            <!-- Transaction History Table -->
+            <div class="lg:col-span-2 glass-card rounded-2xl p-6 border border-slate-700/60 shadow-xl flex flex-col justify-between">
+                <div>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-700 pb-3">
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-yellow-500"></i>
+                            تۆماری مامەڵەکانی <span id="current-material-title" class="gold-text font-black">ئاڵتون</span>
+                        </h2>
+                        <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-lg border border-slate-600 transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i> چاپکردنی ڕاپۆرت
+                        </button>
+                    </div>
 
+                    <!-- Scrollable Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right text-sm text-slate-300">
+                            <thead class="bg-slate-800/80 text-xs uppercase text-slate-400 border-b border-slate-700">
+                                <tr>
+                                    <th class="p-3">بەروار</th>
+                                    <th class="p-3">ناو</th>
+                                    <th class="p-3">جۆر</th>
+                                    <th class="p-3">کێش (کگم)</th>
+                                    <th class="p-3">نرخ/کگم</th>
+                                    <th class="p-3">کۆی گشتی ($)</th>
+                                    <th class="p-3 text-center">کردار</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-table-body" class="divide-y divide-slate-800">
+                                <!-- Dynamic Rows Here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-<section>
-<h1 class="title">Contact Us</h1>
-<p>For orders and information contact Anas Gold.</p>
-</section>
+                <div id="empty-state" class="text-center py-12 text-slate-500 hidden">
+                    <i class="fa-solid fa-box-open text-4xl mb-3"></i>
+                    <p>هیچ مامەڵەیەک بۆ ئەم بەشە تۆمار نەکراوە.</p>
+                </div>
+            </div>
 
+        </div>
+    </main>
 
-<footer>
-© 2026 Anas Gold - All Rights Reserved
-</footer>
+    <!-- Footer Section -->
+    <footer class="border-t border-slate-800 bg-slate-900/50 py-4 text-center text-xs text-slate-500 mt-8">
+        Anas Gold Platform &copy; 2026 - تەواوی مافەکانی پارێزراوە
+    </footer>
 
+    <!-- JavaScript logic -->
+    <script>
+        // Set default date to today
+        document.getElementById('trans-date').valueAsDate = new Date();
 
-<section>
-<h1 class="title">Anas Gold Inventory</h1>
+        // State Management
+        let currentMaterial = 'gold';
+        let db = JSON.parse(localStorage.getItem('anas_gold_db')) || {
+            gold: [],
+            silver: [],
+            copper: []
+        };
 
-<div class="card" style="margin:auto;">
+        // Switch Tabs (Gold, Silver, Copper)
+        function switchTab(material) {
+            currentMaterial = material;
+            
+            // Reset Styles for buttons
+            ['gold', 'silver', 'copper'].forEach(m => {
+                const btn = document.getElementById(`tab-${m}`);
+                btn.className = "flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 text-slate-400 hover:text-white";
+            });
 
-<h2>➕ Add Record</h2>
+            const activeBtn = document.getElementById(`tab-${material}`);
+            const titleElement = document.getElementById('current-material-title');
 
-<select id="metal">
-<option>Gold</option>
-<option>Silver</option>
-<option>Copper</option>
-</select>
+            if (material === 'gold') {
+                activeBtn.className = "flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 bg-yellow-500 text-slate-950 shadow-lg";
+                titleElement.innerText = "ئاڵتون";
+                titleElement.className = "gold-text font-black";
+            } else if (material === 'silver') {
+                activeBtn.className = "flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 bg-slate-300 text-slate-950 shadow-lg";
+                titleElement.innerText = "زیوو";
+                titleElement.className = "silver-text font-black";
+            } else {
+                activeBtn.className = "flex-1 sm:flex-initial px-6 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 bg-amber-700 text-white shadow-lg";
+                titleElement.innerText = "مس";
+                titleElement.className = "copper-text font-black";
+            }
 
-<input id="name" placeholder="Product Name">
+            renderData();
+        }
 
-<input id="weight" type="number" placeholder="Weight KG">
+        // Add Transaction Function
+        function handleAddTransaction(e) {
+            e.preventDefault();
 
-<input id="price" type="number" placeholder="Price">
+            const type = document.getElementById('trans-type').value;
+            const name = document.getElementById('trans-name').value;
+            const weight = parseFloat(document.getElementById('trans-weight').value);
+            const price = parseFloat(document.getElementById('trans-price').value);
+            const date = document.getElementById('trans-date').value;
 
-<select id="type">
-<option value="buy">Purchase</option>
-<option value="sell">Sale</option>
-</select>
+            const newRecord = {
+                id: Date.now(),
+                type,
+                name,
+                weight,
+                price,
+                total: weight * price,
+                date
+            };
 
-<button onclick="addRecord()">Add</button>
+            db[currentMaterial].push(newRecord);
+            saveToLocalStorage();
+            renderData();
 
-</div>
+            // Reset Input Fields
+            document.getElementById('trans-name').value = '';
+            document.getElementById('trans-weight').value = '';
+            document.getElementById('trans-price').value = '';
+        }
 
+        // Delete Row
+        function deleteTransaction(id) {
+            db[currentMaterial] = db[currentMaterial].filter(item => item.id !== id);
+            saveToLocalStorage();
+            renderData();
+        }
 
-<h2 class="title">Records</h2>
+        // Save DB to Local Storage
+        function saveToLocalStorage() {
+            localStorage.setItem('anas_gold_db', JSON.stringify(db));
+        }
 
-<table border="1" width="90%" style="margin:auto">
-<thead>
-<tr>
-<th>Date</th>
-<th>Metal</th>
-<th>Name</th>
-<th>KG</th>
-<th>Price</th>
-<th>Type</th>
-</tr>
-</thead>
+        // Render Data and Calculate Live Totals
+        function renderData() {
+            const tableBody = document.getElementById('transaction-table-body');
+            const emptyState = document.getElementById('empty-state');
+            const list = db[currentMaterial];
 
-<tbody id="records"></tbody>
+            tableBody.innerHTML = '';
 
-</table>
+            let buyWeight = 0, sellWeight = 0, buyTotal = 0, sellTotal = 0;
 
+            if (list.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
 
-<h2>
-Total Purchased: <span id="buyTotal">0</span> KG
-</h2>
+                list.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
+                    if (item.type === 'buy') {
+                        buyWeight += item.weight;
+                        buyTotal += item.total;
+                    } else {
+                        sellWeight += item.weight;
+                        sellTotal += item.total;
+                    }
 
-<h2>
-Total Sold: <span id="sellTotal">0</span> KG
-</h2>
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-slate-800/40 transition-colors";
+                    row.innerHTML = `
+                        <td class="p-3 text-slate-400">${item.date}</td>
+                        <td class="p-3 font-semibold text-white">${item.name}</td>
+                        <td class="p-3">
+                            <span class="px-2 py-1 rounded-md text-xs font-bold ${item.type === 'buy' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+                                ${item.type === 'buy' ? 'کڕین' : 'فرۆشتن'}
+                            </span>
+                        </td>
+                        <td class="p-3">${item.weight.toLocaleString('en-US')} کگم</td>
+                        <td class="p-3">$${item.price.toLocaleString('en-US')}</td>
+                        <td class="p-3 font-bold ${item.type === 'buy' ? 'text-emerald-400' : 'text-rose-400'}">$${item.total.toLocaleString('en-US')}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="deleteTransaction(${item.id})" class="text-slate-500 hover:text-rose-400 transition-colors p-1">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
 
-</section><script>
+            // Update Header Totals (Live Calculation)
+            document.getElementById('stat-buy-weight').innerText = buyWeight.toLocaleString('en-US');
+            document.getElementById('stat-sell-weight').innerText = sellWeight.toLocaleString('en-US');
+            document.getElementById('stat-buy-total').innerText = buyTotal.toLocaleString('en-US');
+            document.getElementById('stat-sell-total').innerText = sellTotal.toLocaleString('en-US');
+        }
 
-let data=[];
-
-
-function addRecord(){
-
-let record={
-date:new Date().toLocaleDateString(),
-metal:document.getElementById("metal").value,
-name:document.getElementById("name").value,
-weight:Number(document.getElementById("weight").value),
-price:Number(document.getElementById("price").value),
-type:document.getElementById("type").value
-};
-
-
-data.push(record);
-
-showData();
-
-}
-
-
-function showData(){
-
-let table="";
-
-let buy=0;
-let sell=0;
-
-
-data.forEach(x=>{
-
-table+=`
-<tr>
-<td>${x.date}</td>
-<td>${x.metal}</td>
-<td>${x.name}</td>
-<td>${x.weight}</td>
-<td>${x.price}</td>
-<td>${x.type}</td>
-</tr>
-`;
-
-
-if(x.type=="buy"){
-buy+=x.weight;
-}else{
-sell+=x.weight;
-}
-
-});
-
-
-document.getElementById("records").innerHTML=table;
-
-document.getElementById("buyTotal").innerHTML=buy;
-
-document.getElementById("sellTotal").innerHTML=sell;
-
-}
-
-
-    </script></body>
+        // Initialize First Render
+        renderData();
+    </script>
+</body>
 </html>

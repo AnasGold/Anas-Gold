@@ -239,10 +239,17 @@
     <!-- Firebase SDK Modules -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged,
+            setPersistence,
+            browserLocalPersistence 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 🔥 زانیارییە تایبەتەکانی فایربەیزی تۆ Anas Gold:
         const firebaseConfig = {
           apiKey: "AIzaSyDWaA1WE2hL4lCTsu4EHQRg1_rGcFKny-M",
           authDomain: "anas-gold.firebaseapp.com",
@@ -264,7 +271,6 @@
 
         document.getElementById('trans-date').valueAsDate = new Date();
 
-        // Toggle Signup / Login
         window.toggleAuthMode = () => {
             isSignup = !isSignup;
             document.getElementById('auth-subtitle').innerText = isSignup ? 'ئەکاونتی نوێ دروست بکە' : 'بچۆ ژوورەوە بۆ پاراستنی زانیارییەکانت';
@@ -273,13 +279,14 @@
             document.getElementById('auth-toggle-btn').innerText = isSignup ? 'چوونەژوورەوە' : 'دروستکردنی ئەکاونتی نوێ';
         };
 
-        // Handle Auth (Sign up & Login)
         window.handleAuth = async (e) => {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
 
             try {
+                await setPersistence(auth, browserLocalPersistence);
+
                 if (isSignup) {
                     await createUserWithEmailAndPassword(auth, email, password);
                 } else {
@@ -290,12 +297,10 @@
             }
         };
 
-        // Handle Logout
         window.handleLogout = () => {
             signOut(auth);
         };
 
-        // Auth Observer
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
@@ -308,7 +313,6 @@
             }
         });
 
-        // Add Transaction to Firebase Cloud
         window.handleAddTransaction = async (e) => {
             e.preventDefault();
             if (!currentUser) return;
@@ -340,7 +344,6 @@
             }
         };
 
-        // Delete Document from Cloud
         window.deleteTransaction = async (id) => {
             try {
                 await deleteDoc(doc(db, "transactions", id));
@@ -349,7 +352,6 @@
             }
         };
 
-        // Switch Material Tabs
         window.switchTab = (material) => {
             currentMaterial = material;
             ['gold', 'silver', 'copper'].forEach(m => {
@@ -376,7 +378,6 @@
             renderData();
         };
 
-        // Listen for Realtime Updates from Cloud Database
         function listenToData() {
             if (!currentUser) return;
             const q = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
@@ -387,7 +388,6 @@
             });
         }
 
-        // Render Data UI
         function renderData() {
             const tableBody = document.getElementById('transaction-table-body');
             const emptyState = document.getElementById('empty-state');

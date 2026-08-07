@@ -62,8 +62,14 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
+    <!-- Loading Spinner Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-slate-950 z-[120] flex flex-col items-center justify-center">
+        <div class="w-12 h-12 border-4 border-yellow-500/20 border-t-yellow-500 rounded-full animate-spin mb-4"></div>
+        <p class="text-xs font-bold gold-text">تکایە چاوەڕێ بکە...</p>
+    </div>
+
     <!-- Auth Screen -->
-    <div id="auth-screen" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] flex items-center justify-center p-4">
+    <div id="auth-screen" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-slate-800 shadow-2xl">
             <div class="text-center mb-6">
                 <div class="w-16 h-16 rounded-2xl gold-gradient p-0.5 mx-auto mb-3 flex items-center justify-center shadow-lg shadow-yellow-500/20">
@@ -367,12 +373,12 @@
                 if (isSignup) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     await sendEmailVerification(userCredential.user);
-                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین (Verification) بۆ ئیمەیڵەکەت نێردرا، تکایە ڕاستەوخۆ بچۆ سەر ئیمەیڵەکەت بۆ بەکارخستنی.");
+                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین (Verification) بۆ ئیمەیڵەکەت نێردرا.");
                     await signOut(auth);
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
                     if (!userCredential.user.emailVerified) {
-                        alert("ئەم ئیمەیڵە تا ئێستا پشکنین نەکراوە! تکایە بچۆ سەر ئیمەیڵەکەت و کلیک لەسەر بەستەری Verify بکە.");
+                        alert("ئەم ئیمەیڵە تا ئێستا پشکنین نەکراوە!");
                         await signOut(auth);
                     }
                 }
@@ -419,6 +425,7 @@
         };
 
         onAuthStateChanged(auth, (user) => {
+            const loadingScreen = document.getElementById('loading-screen');
             if (user && user.emailVerified) {
                 currentUser = user;
                 document.getElementById('auth-screen').classList.add('hidden');
@@ -428,6 +435,7 @@
                 currentUser = null;
                 document.getElementById('auth-screen').classList.remove('hidden');
             }
+            if(loadingScreen) loadingScreen.classList.add('hidden');
         });
 
         window.handleAddTransaction = async (e) => {

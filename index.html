@@ -179,5 +179,125 @@ Discover premium gold, silver and copper products crafted with elegance.
 </footer>
 
 
-</body>
+<section>
+<h1 class="title">Anas Gold Inventory</h1>
+
+<div class="card" style="margin:auto;">
+
+<h2>➕ Add Record</h2>
+
+<select id="metal">
+<option>Gold</option>
+<option>Silver</option>
+<option>Copper</option>
+</select>
+
+<input id="name" placeholder="Product Name">
+
+<input id="weight" type="number" placeholder="Weight KG">
+
+<input id="price" type="number" placeholder="Price">
+
+<select id="type">
+<option value="buy">Purchase</option>
+<option value="sell">Sale</option>
+</select>
+
+<button onclick="addRecord()">Add</button>
+
+</div>
+
+
+<h2 class="title">Records</h2>
+
+<table border="1" width="90%" style="margin:auto">
+<thead>
+<tr>
+<th>Date</th>
+<th>Metal</th>
+<th>Name</th>
+<th>KG</th>
+<th>Price</th>
+<th>Type</th>
+</tr>
+</thead>
+
+<tbody id="records"></tbody>
+
+</table>
+
+
+<h2>
+Total Purchased: <span id="buyTotal">0</span> KG
+</h2>
+
+<h2>
+Total Sold: <span id="sellTotal">0</span> KG
+</h2>
+
+</section><script>
+
+let data=[];
+
+
+function addRecord(){
+
+let record={
+date:new Date().toLocaleDateString(),
+metal:document.getElementById("metal").value,
+name:document.getElementById("name").value,
+weight:Number(document.getElementById("weight").value),
+price:Number(document.getElementById("price").value),
+type:document.getElementById("type").value
+};
+
+
+data.push(record);
+
+showData();
+
+}
+
+
+function showData(){
+
+let table="";
+
+let buy=0;
+let sell=0;
+
+
+data.forEach(x=>{
+
+table+=`
+<tr>
+<td>${x.date}</td>
+<td>${x.metal}</td>
+<td>${x.name}</td>
+<td>${x.weight}</td>
+<td>${x.price}</td>
+<td>${x.type}</td>
+</tr>
+`;
+
+
+if(x.type=="buy"){
+buy+=x.weight;
+}else{
+sell+=x.weight;
+}
+
+});
+
+
+document.getElementById("records").innerHTML=table;
+
+document.getElementById("buyTotal").innerHTML=buy;
+
+document.getElementById("sellTotal").innerHTML=sell;
+
+}
+
+
+    </script></body>
 </html>

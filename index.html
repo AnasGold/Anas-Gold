@@ -45,7 +45,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Auth Section (Modal / Screen) -->
+    <!-- Auth Section -->
     <div id="auth-screen" class="fixed inset-0 bg-slate-950/90 backdrop-blur-lg z-[100] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-slate-700 shadow-2xl">
             <div class="text-center mb-6">
@@ -58,7 +58,6 @@
                 <p class="text-xs text-slate-400 mt-1" id="auth-subtitle">بچۆ ژوورەوە بۆ پاراستنی زانیارییەکانت</p>
             </div>
 
-            <!-- Login / Signup Form -->
             <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-400 mb-1">ئیمەیڵ</label>
@@ -81,7 +80,7 @@
         </div>
     </div>
 
-    <!-- Main Application Header -->
+    <!-- Main Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -96,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Material Tabs & Logout -->
             <div class="flex items-center gap-3 w-full sm:w-auto justify-center">
                 <div class="flex bg-slate-800/80 p-1.5 rounded-xl border border-slate-700/50 flex-grow sm:flex-grow-0 justify-center">
                     <button onclick="switchTab('gold')" id="tab-gold" class="px-5 py-2 rounded-lg font-bold text-sm transition-all duration-300 flex items-center gap-2 bg-yellow-500 text-slate-950 shadow-lg">
@@ -118,8 +116,6 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
-
-        <!-- Analytics Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             <div class="glass-card rounded-2xl p-5 border-r-4 border-emerald-500">
                 <div class="flex justify-between items-start mb-2">
@@ -154,7 +150,6 @@
             </div>
         </div>
 
-        <!-- Form and Table Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="glass-card rounded-2xl p-6 h-fit border border-slate-700/60 shadow-xl">
                 <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-slate-700 pb-3">
@@ -236,7 +231,7 @@
         </div>
     </main>
 
-    <!-- Firebase SDK Modules -->
+    <!-- Firebase Modules -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
@@ -293,7 +288,16 @@
                     await signInWithEmailAndPassword(auth, email, password);
                 }
             } catch (err) {
-                alert("هەڵەیەک ڕوویدا: " + err.message);
+                // ئەگەر ئیمەیڵەکە هەبوو، بەرنامەکە بە خۆکارانە دەچێتە ژوورەوە بە بێ هەڵە
+                if (err.code === 'auth/email-already-in-use') {
+                    try {
+                        await signInWithEmailAndPassword(auth, email, password);
+                    } catch (signInErr) {
+                        alert("پاسۆردەکەت هەڵەیە!");
+                    }
+                } else {
+                    alert("هەڵەیەک ڕوویدا: " + err.message);
+                }
             }
         };
 

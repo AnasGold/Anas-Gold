@@ -11,7 +11,11 @@ body{
     margin:0;
     font-family: Arial, sans-serif;
     background:#0b0b0b;
-    color:white;
+    color:white;<script>
+function showSection(type){
+    alert(type.toUpperCase()+" Dashboard (Coming in Part 2)");
+}
+</script>
 }
 
 header{
@@ -31,11 +35,11 @@ header p{
     color:#eee;
     font-size:20px;
 }
-
-nav{
-    background:#111;
-    padding:15px;
-    text-align:center;
+<nav>
+<a href="#" onclick="showSection('gold')">🟡 Gold</a>
+<a href="#" onclick="showSection('silver')">⚪ Silver</a>
+<a href="#" onclick="showSection('copper')">🟤 Copper</a>
+</nav>
 }
 
 nav a{
@@ -45,10 +49,30 @@ nav a{
     font-size:18px;
 }
 
-section{
-    padding:50px 20px;
-    text-align:center;
-}
+sec<section id="dashboard">
+<h1 class="title">Anas Gold Dashboard</h1>
+<p>Choose a category</p>
+
+<div class="cards">
+
+<div class="card" onclick="showSection('gold')">
+<h2>🟡 Gold</h2>
+<p>Open Gold Inventory</p>
+</div>
+
+<div class="card" onclick="showSection('silver')">
+<h2>⚪ Silver</h2>
+<p>Open Silver Inventory</p>
+</div>
+
+<div class="card" onclick="showSection('copper')">
+<h2>🟤 Copper</h2>
+<p>Open Copper Inventory</p>
+</div>
+
+</div>
+</section>
+‌
 
 .title{
     color:#d4af37;

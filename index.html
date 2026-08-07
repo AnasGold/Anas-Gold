@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anas Gold - سیستەمی بەڕێوەبردنی ئاڵتون، زیوو و مس</title>
 
-    <!-- App / PWA Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,11 +12,8 @@
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2697/2697432.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2697/2697432.png">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -53,7 +49,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Auth Section -->
+    <!-- Auth Screen -->
     <div id="auth-screen" class="fixed inset-0 bg-slate-950/90 backdrop-blur-lg z-[100] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-slate-700 shadow-2xl">
             <div class="text-center mb-6">
@@ -69,7 +65,7 @@
             <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-400 mb-1">ئیمەیڵ</label>
-                    <input type="email" id="auth-email" required placeholder="example@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
+                    <input type="email" id="auth-email" required placeholder="ئیمەیڵەکەت بنووسە" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
@@ -91,7 +87,7 @@
         </div>
     </div>
 
-    <!-- Main Header -->
+    <!-- Main App Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -123,7 +119,7 @@
                     <button onclick="handleLogout()" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-xl transition-colors" title="چوونەدەرەوە">
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
-                    <button onclick="handleDeleteAccount()" class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors" title="سڕینەوەی بەتەواوەتی ئەکاونت">
+                    <button onclick="handleDeleteAccount()" class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors" title="سڕینەوەی ئەکاونت">
                         <i class="fa-solid fa-user-xmark"></i>
                     </button>
                 </div>
@@ -131,7 +127,7 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Dashboard -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             <div class="glass-card rounded-2xl p-5 border-r-4 border-emerald-500">
@@ -168,6 +164,7 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Transaction Form -->
             <div class="glass-card rounded-2xl p-6 h-fit border border-slate-700/60 shadow-xl">
                 <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-2 border-b border-slate-700 pb-3">
                     <i class="fa-solid fa-circle-plus text-yellow-500"></i> تۆمارکردنی مامەڵەی نوێ
@@ -209,6 +206,7 @@
                 </form>
             </div>
 
+            <!-- Transaction Table -->
             <div class="lg:col-span-2 glass-card rounded-2xl p-6 border border-slate-700/60 shadow-xl flex flex-col justify-between">
                 <div>
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-700 pb-3">
@@ -248,7 +246,7 @@
         </div>
     </main>
 
-    <!-- Firebase Modules -->
+    <!-- Firebase System Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
@@ -290,7 +288,7 @@
 
         window.toggleAuthMode = () => {
             isSignup = !isSignup;
-            document.getElementById('auth-subtitle').innerText = isSignup ? 'ئەکاونتی نوێ دروست بکە (پێویست بە ئیمەیڵە)' : 'بچۆ ژوورەوە بۆ پاراستنی زانیارییەکانت';
+            document.getElementById('auth-subtitle').innerText = isSignup ? 'ئەکاونتی نوێ دروست بکە (بە ئیمەیڵی خاوێن)' : 'بچۆ ژوورەوە بۆ پاراستنی زانیارییەکانت';
             document.getElementById('btn-text').innerText = isSignup ? 'دروستکردنی ئەکاونت' : 'چوونەژوورەوە';
             document.getElementById('auth-toggle-text').innerText = isSignup ? 'ئەکاونتت هەیە؟' : 'ئەکاونتت نییە؟';
             document.getElementById('auth-toggle-btn').innerText = isSignup ? 'چوونەژوورەوە' : 'دروستکردنی ئەکاونتی نوێ';
@@ -308,20 +306,20 @@
                 if (isSignup) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     await sendEmailVerification(userCredential.user);
-                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین (Verification) بۆ ئیمەیڵەکەت نێردرا، تکایە ڕاستەوخۆ بچۆ سەر ئیمەیڵەکەت (یان بەشی Spam) و کلیک لەسەر لینکەکە بکە بۆ چالاککردن.");
+                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین (Verification) بۆ ئیمەیڵەکەت نێردرا. تکایە بەشی Spam/Junk یان Inbox بپشکنە بۆ ئەوەی چالاکی بکەیت.");
                     await signOut(auth);
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
                     if (!userCredential.user.emailVerified) {
-                        alert("ئەم ئیمەیڵە تا ئێستا تاپۆ/پشکنین نەکراوە! تکایە بچۆ سەر ئیمەیڵەکەت و کلیک لەسەر بەستەری Verify بکە.");
+                        alert("ئەم ئیمەیڵە تا ئێستا پشکنینی/Verify بۆ نەکراوە! تکایە لە ئیمەیڵەکەت کلیک لەسەر بەستەرەکە بکە.");
                         await signOut(auth);
                     }
                 }
             } catch (err) {
                 if (err.code === 'auth/email-already-in-use') {
-                    alert("ئەم ئیمەیڵە پێشتر دروستکراوە! ئەگەر ئەکاونتە کۆنەکەت سڕیوەتەوە، تەنها یەکجار 'چوونەژوورەوە' دابگرە بۆ ئەوەی بڕواتە ژوورەوە، پاشان لەناو ئەپەکە بە تەواوەتی لە سێرڤەر بیپۆشە (Delete Account).");
+                    alert("ئەم ئیمەیڵە پێشتر لە سێرڤەردا هەبووە! دەتوانیت لە سێرڤەری Firebase بیپۆشیت یان لەگەڵ پاسۆردەکەی بچیتە ژوورەوە.");
                 } else {
-                    alert("هەڵەیەک ڕوویدا: " + err.message);
+                    alert("هەڵە: " + err.message);
                 }
             }
         };
@@ -329,48 +327,33 @@
         window.handleForgotPassword = async () => {
             const email = document.getElementById('auth-email').value;
             if (!email) {
-                alert("تکایە سەرەتا ئیمەیڵەکەت بنووسە لە خانەی ئیمەیڵ.");
+                alert("تکایە سەرەتا ئیمەیڵەکەت بنووسە.");
                 return;
             }
 
             try {
                 await sendPasswordResetEmail(auth, email);
-                alert("لینکێکی نوێی دەستکاریکردن نێردرا! تکایە ئیمەیڵەکەت و بەشی Spam بپشکنە.");
+                alert("لینکی دەستکاریکردنی پاسۆرد بۆ ئیمەیڵەکەت نێردرا!");
             } catch (err) {
-                alert("نەتوانرا ئیمەیڵ بنێردرێت: " + err.message);
+                alert("هەڵە: " + err.message);
             }
         };
 
         window.handleDeleteAccount = async () => {
             if (!currentUser) return;
-
-            const confirmDelete = confirm("دڵنیایت لە سڕینەوەی ئەم ئەکاونتە؟ تەواوی داتاکانت دەسڕدرێنەوە و ئیمەیڵەکەشی بە تەواوی ئازاد دەکرێت بۆ ئەوەی دووبارە ئەکاونتی نوێی لەسەر دروست بکەیتەوە!");
-            if (!confirmDelete) return;
+            if (!confirm("دڵنیایت لە سڕینەوەی ئەم ئەکاونتە؟")) return;
 
             try {
-                // سڕینەوەی داتاکانی لە Firestore
                 const q = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
                 const snapshot = await getDocs(q);
                 const deletePromises = snapshot.docs.map(docSnapshot => deleteDoc(doc(db, "transactions", docSnapshot.id)));
                 await Promise.all(deletePromises);
 
-                // سڕینەوەی بەکارھێنەر لە سێرڤەر
                 await deleteUser(currentUser);
-                alert("ئەکاونتەکەت و ئیمەیڵەکەت بە سەرکەوتوویی و بە تەواوەتی لە سێرڤەر سڕدرایەوە!");
+                alert("ئەکاونتەکە سڕدرایەوە!");
                 location.reload();
             } catch (err) {
-                if (err.code === 'auth/requires-recent-login') {
-                    const pass = prompt("بۆ سڕینەوەی بە تەواوەتی، تکایە پاسۆردەکەت دووبارە بنووسەوە بۆ دڵنیابوونەوە:");
-                    if (pass) {
-                        const credential = EmailAuthProvider.credential(currentUser.email, pass);
-                        await reauthenticateWithCredential(currentUser, credential);
-                        await deleteUser(currentUser);
-                        alert("ئەکاونتەکەت بە تەواوەتی سڕدرایەوە! ئێستا دەتوانیت سەرلەنوێ دروستی بکەیتەوە.");
-                        location.reload();
-                    }
-                } else {
-                    alert("کێشەیەک ڕوودا: " + err.message);
-                }
+                alert("کێشەیەک ڕوودا: " + err.message);
             }
         };
 

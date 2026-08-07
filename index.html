@@ -79,8 +79,8 @@
                     <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                 </div>
 
-                <button type="submit" id="auth-btn" class="w-full gold-gradient text-slate-950 font-bold py-3.5 px-4 rounded-xl shadow-lg hover:opacity-90 transition-all">
-                    چوونەژوورەوە
+                <button type="submit" id="auth-btn" class="w-full gold-gradient text-slate-950 font-bold py-3.5 px-4 rounded-xl shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                    <span id="btn-text">چوونەژوورەوە</span>
                 </button>
             </form>
 
@@ -119,12 +119,11 @@
                     </button>
                 </div>
                 
-                <!-- Action Buttons -->
                 <div class="flex items-center gap-2">
                     <button onclick="handleLogout()" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-xl transition-colors" title="چوونەدەرەوە">
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
-                    <button onclick="handleDeleteAccount()" class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors" title="سڕینەوەی ئەکاونت">
+                    <button onclick="handleDeleteAccount()" class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors" title="سڕینەوەی بەتەواوەتی ئەکاونت">
                         <i class="fa-solid fa-user-xmark"></i>
                     </button>
                 </div>
@@ -261,6 +260,8 @@
             sendEmailVerification,
             sendPasswordResetEmail,
             deleteUser,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
             setPersistence,
             browserLocalPersistence 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -289,8 +290,8 @@
 
         window.toggleAuthMode = () => {
             isSignup = !isSignup;
-            document.getElementById('auth-subtitle').innerText = isSignup ? 'ئەکاونتی نوێ دروست بکە' : 'بچۆ ژوورەوە بۆ پاراستنی زانیارییەکانت';
-            document.getElementById('auth-btn').innerText = isSignup ? 'دروستکردنی ئەکاونت' : 'چوونەژوورەوە';
+            document.getElementById('auth-subtitle').innerText = isSignup ? 'ئەکاونتی نوێ دروست بکە (پێویست بە ئیمەیڵە)' : 'بچۆ ژوورەوە بۆ پاراستنی زانیارییەکانت';
+            document.getElementById('btn-text').innerText = isSignup ? 'دروستکردنی ئەکاونت' : 'چوونەژوورەوە';
             document.getElementById('auth-toggle-text').innerText = isSignup ? 'ئەکاونتت هەیە؟' : 'ئەکاونتت نییە؟';
             document.getElementById('auth-toggle-btn').innerText = isSignup ? 'چوونەژوورەوە' : 'دروستکردنی ئەکاونتی نوێ';
             document.getElementById('forgot-btn').style.display = isSignup ? 'none' : 'block';
@@ -307,18 +308,18 @@
                 if (isSignup) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     await sendEmailVerification(userCredential.user);
-                    alert("ئەکاونتەکەت دروستکرا! لینکێکی پشکنین (Verification) نێردرا بۆ ئیمەیڵەکەت، تکایە ئیمەیڵەکەت ئاڵوگۆڕ بکه دواتر بچۆ ژوورەوە.");
+                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین (Verification) بۆ ئیمەیڵەکەت نێردرا، تکایە ڕاستەوخۆ بچۆ سەر ئیمەیڵەکەت (یان بەشی Spam) و کلیک لەسەر لینکەکە بکە بۆ چالاککردن.");
                     await signOut(auth);
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
                     if (!userCredential.user.emailVerified) {
-                        alert("تکایە سەرەتا ئیمەیڵەکەت لەسەر بەستەری پشکنین (Verification) جێگیر بکه کە بۆمان ناردویت.");
+                        alert("ئەم ئیمەیڵە تا ئێستا تاپۆ/پشکنین نەکراوە! تکایە بچۆ سەر ئیمەیڵەکەت و کلیک لەسەر بەستەری Verify بکە.");
                         await signOut(auth);
                     }
                 }
             } catch (err) {
                 if (err.code === 'auth/email-already-in-use') {
-                    alert("ئەم ئیمەیڵە پێشتر بەکارهاتووە. کاتێک چویتەژوورەوە دەتوانیت لە ڕێگەی دوگمەی سڕینەوەی ئەکاونت بیپۆشیتەوە.");
+                    alert("ئەم ئیمەیڵە پێشتر دروستکراوە! ئەگەر ئەکاونتە کۆنەکەت سڕیوەتەوە، تەنها یەکجار 'چوونەژوورەوە' دابگرە بۆ ئەوەی بڕواتە ژوورەوە، پاشان لەناو ئەپەکە بە تەواوەتی لە سێرڤەر بیپۆشە (Delete Account).");
                 } else {
                     alert("هەڵەیەک ڕوویدا: " + err.message);
                 }
@@ -328,13 +329,13 @@
         window.handleForgotPassword = async () => {
             const email = document.getElementById('auth-email').value;
             if (!email) {
-                alert("تکایە سەرەتا ئیمەیڵەکەت بنووسە لە خانەی ئیمەیڵ، دواتر کلیک بکەرەوە.");
+                alert("تکایە سەرەتا ئیمەیڵەکەت بنووسە لە خانەی ئیمەیڵ.");
                 return;
             }
 
             try {
                 await sendPasswordResetEmail(auth, email);
-                alert("لینکێکی دەستکاریکردن و هێنانەوەی پاسۆرد نێردرا بۆ ئیمەیڵەکەت!");
+                alert("لینکێکی نوێی دەستکاریکردن نێردرا! تکایە ئیمەیڵەکەت و بەشی Spam بپشکنە.");
             } catch (err) {
                 alert("نەتوانرا ئیمەیڵ بنێردرێت: " + err.message);
             }
@@ -343,21 +344,33 @@
         window.handleDeleteAccount = async () => {
             if (!currentUser) return;
 
-            const confirmDelete = confirm("ئایا دڵنیایت لە سڕینەوەی ئەم ئەکاونتە؟ تەواوی داتاکانت لە سێرڤەر دەسڕدرێنەوە و ناهێڵدرێنەوە!");
+            const confirmDelete = confirm("دڵنیایت لە سڕینەوەی ئەم ئەکاونتە؟ تەواوی داتاکانت دەسڕدرێنەوە و ئیمەیڵەکەشی بە تەواوی ئازاد دەکرێت بۆ ئەوەی دووبارە ئەکاونتی نوێی لەسەر دروست بکەیتەوە!");
             if (!confirmDelete) return;
 
             try {
-                // سڕینەوەی داتاکانی بەکارهێنەر لە فایربەیس
+                // سڕینەوەی داتاکانی لە Firestore
                 const q = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
                 const snapshot = await getDocs(q);
                 const deletePromises = snapshot.docs.map(docSnapshot => deleteDoc(doc(db, "transactions", docSnapshot.id)));
                 await Promise.all(deletePromises);
 
-                // سڕینەوەی خودی بەکارهێنەرەکە لە سێرڤەر
+                // سڕینەوەی بەکارھێنەر لە سێرڤەر
                 await deleteUser(currentUser);
-                alert("ئەکاونتەکەت و تەواوی داتاکانت بە سەرکەوتوویی سڕدرانەوە!");
+                alert("ئەکاونتەکەت و ئیمەیڵەکەت بە سەرکەوتوویی و بە تەواوەتی لە سێرڤەر سڕدرایەوە!");
+                location.reload();
             } catch (err) {
-                alert("بۆ سڕینەوەی ئەکاونت پێویستە جارێکی تر بچیتەوە ژوورەوە دواتر دوگمەکە دابگریتەوە. (هەڵە: " + err.message + ")");
+                if (err.code === 'auth/requires-recent-login') {
+                    const pass = prompt("بۆ سڕینەوەی بە تەواوەتی، تکایە پاسۆردەکەت دووبارە بنووسەوە بۆ دڵنیابوونەوە:");
+                    if (pass) {
+                        const credential = EmailAuthProvider.credential(currentUser.email, pass);
+                        await reauthenticateWithCredential(currentUser, credential);
+                        await deleteUser(currentUser);
+                        alert("ئەکاونتەکەت بە تەواوەتی سڕدرایەوە! ئێستا دەتوانیت سەرلەنوێ دروستی بکەیتەوە.");
+                        location.reload();
+                    }
+                } else {
+                    alert("کێشەیەک ڕوودا: " + err.message);
+                }
             }
         };
 

@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anas Gold - سیستەمی بەڕێوەبردنی ئاڵتون، زیوو و مس</title>
 
+    <!-- App / PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Anas Gold">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2697/2697432.png">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2697/2697432.png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -64,7 +72,10 @@
                     <input type="email" id="auth-email" required placeholder="example@gmail.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-slate-400 mb-1">پاسۆرد</label>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-medium text-slate-400">پاسۆرد</label>
+                        <button type="button" onclick="handleForgotPassword()" id="forgot-btn" class="text-xs text-yellow-500 hover:underline">پاسۆردت بیرچووە؟</button>
+                    </div>
                     <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                 </div>
 
@@ -73,7 +84,7 @@
                 </button>
             </form>
 
-            <div class="mt-6 text-center text-xs text-slate-400 flex justify-between items-center">
+            <div class="mt-6 text-center text-xs text-slate-400 flex justify-between items-center border-t border-slate-800 pt-4">
                 <span id="auth-toggle-text">ئەکاونتت نییە؟</span>
                 <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-yellow-500 hover:underline font-bold">دروستکردنی ئەکاونتی نوێ</button>
             </div>
@@ -107,9 +118,16 @@
                         <i class="fa-solid fa-cubes"></i> مس
                     </button>
                 </div>
-                <button onclick="handleLogout()" class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors" title="چوونەدەرەوە">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2">
+                    <button onclick="handleLogout()" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-xl transition-colors" title="چوونەدەرەوە">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                    <button onclick="handleDeleteAccount()" class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors" title="سڕینەوەی ئەکاونت">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -240,10 +258,13 @@
             signInWithEmailAndPassword, 
             signOut, 
             onAuthStateChanged,
+            sendEmailVerification,
+            sendPasswordResetEmail,
+            deleteUser,
             setPersistence,
             browserLocalPersistence 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDWaA1WE2hL4lCTsu4EHQRg1_rGcFKny-M",
@@ -272,6 +293,7 @@
             document.getElementById('auth-btn').innerText = isSignup ? 'دروستکردنی ئەکاونت' : 'چوونەژوورەوە';
             document.getElementById('auth-toggle-text').innerText = isSignup ? 'ئەکاونتت هەیە؟' : 'ئەکاونتت نییە؟';
             document.getElementById('auth-toggle-btn').innerText = isSignup ? 'چوونەژوورەوە' : 'دروستکردنی ئەکاونتی نوێ';
+            document.getElementById('forgot-btn').style.display = isSignup ? 'none' : 'block';
         };
 
         window.handleAuth = async (e) => {
@@ -283,21 +305,59 @@
                 await setPersistence(auth, browserLocalPersistence);
 
                 if (isSignup) {
-                    await createUserWithEmailAndPassword(auth, email, password);
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    await sendEmailVerification(userCredential.user);
+                    alert("ئەکاونتەکەت دروستکرا! لینکێکی پشکنین (Verification) نێردرا بۆ ئیمەیڵەکەت، تکایە ئیمەیڵەکەت ئاڵوگۆڕ بکه دواتر بچۆ ژوورەوە.");
+                    await signOut(auth);
                 } else {
-                    await signInWithEmailAndPassword(auth, email, password);
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    if (!userCredential.user.emailVerified) {
+                        alert("تکایە سەرەتا ئیمەیڵەکەت لەسەر بەستەری پشکنین (Verification) جێگیر بکه کە بۆمان ناردویت.");
+                        await signOut(auth);
+                    }
                 }
             } catch (err) {
-                // ئەگەر ئیمەیڵەکە هەبوو، بەرنامەکە بە خۆکارانە دەچێتە ژوورەوە بە بێ هەڵە
                 if (err.code === 'auth/email-already-in-use') {
-                    try {
-                        await signInWithEmailAndPassword(auth, email, password);
-                    } catch (signInErr) {
-                        alert("پاسۆردەکەت هەڵەیە!");
-                    }
+                    alert("ئەم ئیمەیڵە پێشتر بەکارهاتووە. کاتێک چویتەژوورەوە دەتوانیت لە ڕێگەی دوگمەی سڕینەوەی ئەکاونت بیپۆشیتەوە.");
                 } else {
                     alert("هەڵەیەک ڕوویدا: " + err.message);
                 }
+            }
+        };
+
+        window.handleForgotPassword = async () => {
+            const email = document.getElementById('auth-email').value;
+            if (!email) {
+                alert("تکایە سەرەتا ئیمەیڵەکەت بنووسە لە خانەی ئیمەیڵ، دواتر کلیک بکەرەوە.");
+                return;
+            }
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alert("لینکێکی دەستکاریکردن و هێنانەوەی پاسۆرد نێردرا بۆ ئیمەیڵەکەت!");
+            } catch (err) {
+                alert("نەتوانرا ئیمەیڵ بنێردرێت: " + err.message);
+            }
+        };
+
+        window.handleDeleteAccount = async () => {
+            if (!currentUser) return;
+
+            const confirmDelete = confirm("ئایا دڵنیایت لە سڕینەوەی ئەم ئەکاونتە؟ تەواوی داتاکانت لە سێرڤەر دەسڕدرێنەوە و ناهێڵدرێنەوە!");
+            if (!confirmDelete) return;
+
+            try {
+                // سڕینەوەی داتاکانی بەکارهێنەر لە فایربەیس
+                const q = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
+                const snapshot = await getDocs(q);
+                const deletePromises = snapshot.docs.map(docSnapshot => deleteDoc(doc(db, "transactions", docSnapshot.id)));
+                await Promise.all(deletePromises);
+
+                // سڕینەوەی خودی بەکارهێنەرەکە لە سێرڤەر
+                await deleteUser(currentUser);
+                alert("ئەکاونتەکەت و تەواوی داتاکانت بە سەرکەوتوویی سڕدرانەوە!");
+            } catch (err) {
+                alert("بۆ سڕینەوەی ئەکاونت پێویستە جارێکی تر بچیتەوە ژوورەوە دواتر دوگمەکە دابگریتەوە. (هەڵە: " + err.message + ")");
             }
         };
 
@@ -306,7 +366,7 @@
         };
 
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && user.emailVerified) {
                 currentUser = user;
                 document.getElementById('auth-screen').classList.add('hidden');
                 document.getElementById('user-display').innerText = `بەکارهێنەر: ${user.email}`;

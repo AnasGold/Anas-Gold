@@ -194,7 +194,7 @@
     <!-- MAIN VIEW 1: TRANSACTIONS (مامەڵەکان) -->
     <main id="view-transactions" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow">
 
-        <!-- ① Transaction Input Form (هێنراوەتە سەرەوە و خانەکانی گەورەتر کراون) -->
+        <!-- ① Transaction Input Form -->
         <div class="glass-card rounded-2xl p-5 sm:p-6 border border-slate-800/80 shadow-2xl mb-6">
             <h2 class="text-lg font-black text-white mb-5 flex items-center gap-2 border-b border-slate-800 pb-3">
                 <i class="fa-solid fa-circle-plus text-yellow-500 text-xl"></i> تۆمارکردنی مامەڵەی نوێ
@@ -211,26 +211,22 @@
 
                 <div>
                     <label class="block text-sm font-bold text-slate-300 mb-1.5">ناوی فرۆشیار / کڕیار / تێبینی</label>
-                    <!-- کیبۆردی ئاسایی نوسین -->
                     <input type="text" id="trans-name" required placeholder="ناوی سیانی یان شوێن" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div id="container-weight">
                         <label class="block text-sm font-bold text-slate-300 mb-1.5" id="label-weight">کێش (کیلۆگرام)</label>
-                        <!-- کیبۆردی تەنها ژمارەیی (Numeric Input) -->
                         <input type="number" inputmode="decimal" step="0.001" id="trans-weight" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-300 mb-1.5" id="label-price">نرخی یەک کگم ($)</label>
-                        <!-- کیبۆردی تەنها ژمارەیی (Numeric Input) -->
                         <input type="number" inputmode="decimal" step="0.01" id="trans-price" required placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-slate-300 mb-1.5">بەروار و کات</label>
-                    <!-- زیادکردنی کات (datetime-local) -->
                     <input type="datetime-local" id="trans-date" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-yellow-500 transition-colors">
                 </div>
 
@@ -284,8 +280,9 @@
         </div>
 
         <!-- ③ Stats Bar -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5" id="stats-container">
-            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-emerald-500">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5" id="stats-container">
+            <!-- Stat 1 -->
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-emerald-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-1-title">کۆی کێشی کڕین</span>
                     <div class="p-1 bg-emerald-500/10 rounded-lg text-emerald-400 text-[10px]"><i class="fa-solid fa-arrow-down"></i></div>
@@ -293,7 +290,8 @@
                 <h3 class="text-lg font-bold text-white"><span id="stat-1-val">0</span> <span class="text-xs text-slate-400" id="stat-1-unit">کگم</span></h3>
             </div>
 
-            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-rose-500">
+            <!-- Stat 2 -->
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-rose-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-2-title">کۆی کێشی فرۆشتن</span>
                     <div class="p-1 bg-rose-500/10 rounded-lg text-rose-400 text-[10px]"><i class="fa-solid fa-arrow-up"></i></div>
@@ -301,12 +299,22 @@
                 <h3 class="text-lg font-bold text-white"><span id="stat-2-val">0</span> <span class="text-xs text-slate-400" id="stat-2-unit">کگم</span></h3>
             </div>
 
-            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-blue-500">
+            <!-- Stat 3 -->
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-blue-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-3-title">کۆی بڕی کڕین ($)</span>
                     <div class="p-1 bg-blue-500/10 rounded-lg text-blue-400 text-[10px]"><i class="fa-solid fa-wallet"></i></div>
                 </div>
                 <h3 class="text-lg font-bold"><span id="stat-3-prefix" class="text-emerald-400">$</span><span id="stat-3-val">0</span></h3>
+            </div>
+
+            <!-- Stat 4 (NEW) -->
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-amber-500 flex flex-col justify-between" id="stat-4-container">
+                <div class="flex justify-between items-start mb-1">
+                    <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-4-title">کۆی بڕی ڕۆشتوو بە $</span>
+                    <div class="p-1 bg-amber-500/10 rounded-lg text-amber-400 text-[10px]"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                </div>
+                <h3 class="text-lg font-bold text-white"><span id="stat-4-prefix" class="text-amber-400">$</span><span id="stat-4-val">0</span></h3>
             </div>
         </div>
 
@@ -439,7 +447,6 @@
         let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
         let activeSymbol = 'OANDA:XAUUSD';
 
-        // ڕێکخستنی سەرەتایی بەروار و کاتی ئێستا
         function setCurrentDateTime() {
             const now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -693,6 +700,7 @@
             const titleElement = document.getElementById('current-material-title');
             const weightContainer = document.getElementById('container-weight');
             const weightInput = document.getElementById('trans-weight');
+            const statsContainer = document.getElementById('stats-container');
 
             const isCoin = material === 'gold_coin';
             const isCurrency = material === 'usd' || material === 'iqd';
@@ -700,9 +708,17 @@
             if(isCurrency) {
                 weightContainer.classList.add('hidden');
                 weightInput.removeAttribute('required');
+                
+                // شاردنەوەی کارتی ٤ بۆ دۆلار و دینار و ڕێکخستنی شێوەکەی بە ٣ کارت
+                document.getElementById('stat-4-container').classList.add('hidden');
+                statsContainer.className = "grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5";
             } else {
                 weightContainer.classList.remove('hidden');
                 weightInput.setAttribute('required', 'true');
+                
+                // پیشاندانی کارتی ٤ بۆ ئاڵتون و زیو و مس و ڕێکخستنی شێوەکەی
+                document.getElementById('stat-4-container').classList.remove('hidden');
+                statsContainer.className = "grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5";
             }
 
             if(material === 'usd' || material === 'iqd') {
@@ -720,8 +736,8 @@
                 document.getElementById('stat-2-unit').innerText = curSymbol;
                 document.getElementById('stat-3-prefix').innerText = curSymbol;
             } else {
-                document.getElementById('opt-buy').innerText = "کڕین (خەرجی)";
-                document.getElementById('opt-sell').innerText = "فرۆشتن (داهات)";
+                document.getElementById('opt-buy').innerText = "کڕین (خەرجی / هاتوو)";
+                document.getElementById('opt-sell').innerText = "فرۆشتن (داهات / ڕۆشتوو)";
                 document.getElementById('label-weight').innerText = isCoin ? "ژمارە (دانە)" : "کێش (کیلۆگرام)";
                 document.getElementById('label-price').innerText = isCoin ? "نرخی یەک دانە ($)" : "نرخی یەک کگم ($)";
                 document.getElementById('th-price').innerText = isCoin ? "نرخ/دانە" : "نرخ/کگم";
@@ -731,9 +747,11 @@
                 document.getElementById('card-stat-1-title').innerText = isCoin ? "کۆی ژمارەی کڕین" : "کۆی کێشی کڕین";
                 document.getElementById('card-stat-2-title').innerText = isCoin ? "کۆی ژمارەی فرۆشتن" : "کۆی کێشی فرۆشتن";
                 document.getElementById('card-stat-3-title').innerText = "کۆی بڕی کڕین ($)";
+                document.getElementById('card-stat-4-title').innerText = "کۆی بڕی ڕۆشتوو بە $";
                 document.getElementById('stat-1-unit').innerText = isCoin ? "دانە" : "کگم";
                 document.getElementById('stat-2-unit').innerText = isCoin ? "دانە" : "کگم";
                 document.getElementById('stat-3-prefix').innerText = "$";
+                document.getElementById('stat-4-prefix').innerText = "$";
             }
 
             if (material === 'gold') {
@@ -824,7 +842,7 @@
             const filtered = currentData.filter(i => i.material === currentMaterial);
 
             tableBody.innerHTML = '';
-            let stat1 = 0, stat2 = 0, stat3 = 0;
+            let stat1 = 0, stat2 = 0, stat3 = 0, stat4 = 0;
 
             const isCurrency = currentMaterial === 'usd' || currentMaterial === 'iqd';
 
@@ -833,19 +851,21 @@
             } else {
                 emptyState.classList.add('hidden');
                 filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
+                    
+                    // ژماردنی ئامارەکان
                     if (isCurrency) {
                         if (item.type === 'buy') stat1 += item.price;
                         else stat2 += item.price;
                     } else {
                         if (item.type === 'buy') {
-                            stat1 += item.weight;
-                            stat3 += item.total;
+                            stat1 += item.weight; // کێشی کڕین
+                            stat3 += item.total;  // پارەی کڕین
                         } else {
-                            stat2 += item.weight;
+                            stat2 += item.weight; // کێشی فرۆشتن
+                            stat4 += item.total;  // پارەی فرۆشتن (ڕۆشتوو)
                         }
                     }
 
-                    // ڕێکخستنی شێوازی پیشاندانی بەروار و کات
                     const formattedDate = item.date ? item.date.replace('T', ' ') : '';
 
                     const row = document.createElement('tr');
@@ -890,6 +910,7 @@
                 });
             }
 
+            // پیشاندانی ئامارەکان لەسەر شاشە
             if(isCurrency) {
                 const base = baseStocks[currentMaterial] || 0;
                 stat3 = base + stat1 - stat2;
@@ -899,8 +920,12 @@
             } else {
                 document.getElementById('stat-1-val').innerText = stat1.toLocaleString('en-US');
                 document.getElementById('stat-2-val').innerText = stat2.toLocaleString('en-US');
+                
                 document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');
                 document.getElementById('stat-3-val').className = "text-emerald-400";
+                
+                // بەشی نوێ بۆ پیشاندانی بڕی ڕۆشتوو
+                document.getElementById('stat-4-val').innerText = stat4.toLocaleString('en-US');
             }
         }
     </script>

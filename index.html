@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -18,51 +18,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body {
-            font-family: 'Noto Sans Arabic', sans-serif;
-            background-color: #0b0f19;
-            color: #f8fafc;
-        }
-        .gold-gradient {
-            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-        }
-        .gold-text {
-            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .silver-text {
-            background: linear-gradient(135deg, #e0e0e0, #f5f5f5, #9e9e9e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .copper-text {
-            background: linear-gradient(135deg, #d77a61, #f4a261, #b0523e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .coin-text {
-            background: linear-gradient(135deg, #f39c12, #f1c40f, #e67e22);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .glass-card {
-            background: rgba(20, 27, 45, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        body { font-family: 'Noto Sans Arabic', sans-serif; background-color: #0b0f19; color: #f8fafc; }
+        .gold-gradient { background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); }
+        .gold-text { background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .silver-text { background: linear-gradient(135deg, #e0e0e0, #f5f5f5, #9e9e9e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .copper-text { background: linear-gradient(135deg, #d77a61, #f4a261, #b0523e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .coin-text { background: linear-gradient(135deg, #f39c12, #f1c40f, #e67e22); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .usd-text { background: linear-gradient(135deg, #10b981, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .iqd-text { background: linear-gradient(135deg, #3b82f6, #60a5fa, #1d4ed8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: rgba(20, 27, 45, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Loading Spinner Screen -->
+    <!-- Loading Screen -->
     <div id="loading-screen" class="fixed inset-0 bg-slate-950 z-[120] flex flex-col items-center justify-center">
         <div class="w-12 h-12 border-4 border-yellow-500/20 border-t-yellow-500 rounded-full animate-spin mb-4"></div>
         <p class="text-xs font-bold gold-text">تکایە چاوەڕێ بکە...</p>
@@ -112,7 +83,7 @@
             <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
                 <i class="fa-solid fa-user-gear text-yellow-500"></i> دەستکاریکردنی ناوی پڕۆفایل
             </h3>
-            <p class="text-xs text-slate-400 mb-4">ناوی نوێ بنووسە بۆ ئەوەی لە سەرەوە لەجیاتی ئیمەیڵەکەت پیشان بدرێت:</p>
+            <p class="text-xs text-slate-400 mb-4">ناوی نوێ بنووسە بۆ ئەوەی لە سەرەوە پیشان بدرێت:</p>
             <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-4 focus:outline-none focus:border-yellow-500">
             <div class="flex gap-2">
                 <button onclick="saveProfileName()" class="flex-1 gold-gradient text-slate-950 font-bold py-2 rounded-xl text-xs">پاشەکەوتکردن</button>
@@ -125,7 +96,6 @@
     <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-lg">
         <div class="max-w-7xl mx-auto px-4 py-3">
             <div class="flex justify-between items-center mb-3">
-                <!-- Logo & App Title -->
                 <div class="flex items-center gap-2.5">
                     <div class="w-9 h-9 rounded-xl gold-gradient p-0.5 flex items-center justify-center shadow-md shadow-yellow-500/10">
                         <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
@@ -138,7 +108,6 @@
                     </div>
                 </div>
 
-                <!-- User Controls -->
                 <div class="flex items-center gap-1.5">
                     <button onclick="openProfileModal()" class="w-9 h-9 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center" title="دەستکاریکردنی ناو">
                         <i class="fa-solid fa-pen-to-square text-xs"></i>
@@ -152,7 +121,7 @@
                 </div>
             </div>
 
-            <!-- Material Tabs -->
+            <!-- Navigation Tabs -->
             <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 pb-1">
                 <button onclick="switchTab('gold')" id="tab-gold" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-yellow-500 text-slate-950 shadow-md">
                     <i class="fa-solid fa-coins"></i> ئاڵتون
@@ -169,47 +138,77 @@
                 <button onclick="switchTab('copper')" id="tab-copper" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
                     <i class="fa-solid fa-cubes"></i> مس
                 </button>
+                <button onclick="switchTab('usd')" id="tab-usd" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-dollar-sign"></i> دۆلار
+                </button>
+                <button onclick="switchTab('iqd')" id="tab-iqd" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-money-bill-wave"></i> دینار
+                </button>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+        <!-- ⭐ NEW: Global Stock Overview Card ("چەندم هەیە") ⭐ -->
+        <div class="glass-card rounded-2xl p-4 border border-yellow-500/30 mb-6 shadow-xl bg-slate-900/40">
+            <h2 class="text-xs font-bold text-yellow-500 mb-3 flex items-center gap-2 border-b border-slate-800 pb-2">
+                <i class="fa-solid fa-boxes-stacked"></i> کۆی گشتی بەرھەمەکان (چەندم هەیە)
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-center">
+                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <p class="text-[10px] text-slate-400 font-medium">ئاڵتون</p>
+                    <p class="text-sm font-black gold-text mt-0.5"><span id="stock-gold">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                </div>
+                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <p class="text-[10px] text-slate-400 font-medium">زیوی مەڕمەڕ</p>
+                    <p class="text-sm font-black silver-text mt-0.5"><span id="stock-silver-marmar">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                </div>
+                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <p class="text-[10px] text-slate-400 font-medium">زیوی پاڵم</p>
+                    <p class="text-sm font-black silver-text mt-0.5"><span id="stock-silver-palm">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                </div>
+                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <p class="text-[10px] text-slate-400 font-medium">لیرەی ئاڵتون</p>
+                    <p class="text-sm font-black coin-text mt-0.5"><span id="stock-gold-coin">0</span> <span class="text-[10px] text-slate-400 font-normal">دانە</span></p>
+                </div>
+                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 col-span-2 sm:col-span-1">
+                    <p class="text-[10px] text-slate-400 font-medium">مس</p>
+                    <p class="text-sm font-black copper-text mt-0.5"><span id="stock-copper">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Statistics Cards for active Tab -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 mb-6" id="stats-container">
             <div class="glass-card rounded-2xl p-4 border-r-4 border-emerald-500">
                 <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold" id="card-buy-title">کۆی کێشی کڕین</span>
+                    <span class="text-slate-400 text-xs font-semibold" id="card-stat-1-title">کۆی کێشی کڕین</span>
                     <div class="p-1.5 bg-emerald-500/10 rounded-lg text-emerald-400 text-xs"><i class="fa-solid fa-arrow-down"></i></div>
                 </div>
-                <h3 class="text-xl font-bold text-white"><span id="stat-buy-weight">0</span> <span class="text-xs text-slate-400" id="unit-stat-1">کگم</span></h3>
+                <h3 class="text-xl font-bold text-white"><span id="stat-1-val">0</span> <span class="text-xs text-slate-400" id="stat-1-unit">کگم</span></h3>
             </div>
 
             <div class="glass-card rounded-2xl p-4 border-r-4 border-rose-500">
                 <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold" id="card-sell-title">کۆی کێشی فرۆشتن</span>
+                    <span class="text-slate-400 text-xs font-semibold" id="card-stat-2-title">کۆی کێشی فرۆشتن</span>
                     <div class="p-1.5 bg-rose-500/10 rounded-lg text-rose-400 text-xs"><i class="fa-solid fa-arrow-up"></i></div>
                 </div>
-                <h3 class="text-xl font-bold text-white"><span id="stat-sell-weight">0</span> <span class="text-xs text-slate-400" id="unit-stat-2">کگم</span></h3>
+                <h3 class="text-xl font-bold text-white"><span id="stat-2-val">0</span> <span class="text-xs text-slate-400" id="stat-2-unit">کگم</span></h3>
             </div>
 
             <div class="glass-card rounded-2xl p-4 border-r-4 border-blue-500">
                 <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold">کۆی بڕی کڕین ($)</span>
+                    <span class="text-slate-400 text-xs font-semibold" id="card-stat-3-title">کۆی بڕی کڕین ($)</span>
                     <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400 text-xs"><i class="fa-solid fa-wallet"></i></div>
                 </div>
-                <h3 class="text-xl font-bold text-emerald-400">$<span id="stat-buy-total">0</span></h3>
-            </div>
-
-            <div class="glass-card rounded-2xl p-4 border-r-4 border-amber-500">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold">کۆی بڕی فرۆشتن ($)</span>
-                    <div class="p-1.5 bg-amber-500/10 rounded-lg text-amber-400 text-xs"><i class="fa-solid fa-scale-balanced"></i></div>
-                </div>
-                <h3 class="text-xl font-bold text-amber-400">$<span id="stat-sell-total">0</span></h3>
+                <h3 class="text-xl font-bold text-emerald-400"><span id="stat-3-prefix">$</span><span id="stat-3-val">0</span></h3>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Transaction Input Form -->
             <div class="glass-card rounded-2xl p-5 h-fit border border-slate-800/80 shadow-xl">
                 <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2 border-b border-slate-800 pb-3">
                     <i class="fa-solid fa-circle-plus text-yellow-500"></i> تۆمارکردنی مامەڵەی نوێ
@@ -217,22 +216,22 @@
 
                 <form id="transaction-form" onsubmit="handleAddTransaction(event)" class="space-y-3.5">
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">جۆری مامەڵە</label>
+                        <label class="block text-xs font-medium text-slate-400 mb-1" id="label-type">جۆری مامەڵە</label>
                         <select id="trans-type" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-yellow-500 transition-colors">
-                            <option value="buy">کڕین (خەرجی)</option>
-                            <option value="sell">فرۆشتن (داهات)</option>
+                            <option value="buy" id="opt-buy">کڕین (خەرجی / هاتوو)</option>
+                            <option value="sell" id="opt-sell">فرۆشتن (داهات / ڕۆشتوو)</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">ناوی فرۆشیار / کڕیار</label>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">ناوی فرۆشیار / کڕیار / تێبینی</label>
                         <input type="text" id="trans-name" required placeholder="ناوى سیانی یان شوێن" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <div>
+                        <div id="container-weight">
                             <label class="block text-xs font-medium text-slate-400 mb-1" id="label-weight">کێش (کیلۆگرام)</label>
-                            <input type="number" step="0.001" id="trans-weight" required placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
+                            <input type="number" step="0.001" id="trans-weight" placeholder="0.00" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-yellow-500 transition-colors">
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-slate-400 mb-1" id="label-price">نرخی یەک کگم ($)</label>
@@ -251,6 +250,7 @@
                 </form>
             </div>
 
+            <!-- Transaction History Table -->
             <div class="lg:col-span-2 glass-card rounded-2xl p-5 border border-slate-800/80 shadow-xl flex flex-col justify-between">
                 <div>
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 border-b border-slate-800 pb-3">
@@ -268,11 +268,11 @@
                             <thead class="bg-slate-900/90 text-[11px] uppercase text-slate-400 border-b border-slate-800">
                                 <tr>
                                     <th class="p-2.5">بەروار</th>
-                                    <th class="p-2.5">ناو</th>
+                                    <th class="p-2.5">ناو / تێبینی</th>
                                     <th class="p-2.5">جۆر</th>
                                     <th class="p-2.5" id="th-weight">کێش (کگم)</th>
                                     <th class="p-2.5" id="th-price">نرخ/کگم</th>
-                                    <th class="p-2.5">کۆی گشتی ($)</th>
+                                    <th class="p-2.5" id="th-total">کۆی گشتی ($)</th>
                                     <th class="p-2.5 text-center">کردار</th>
                                 </tr>
                             </thead>
@@ -373,7 +373,7 @@
                 if (isSignup) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     await sendEmailVerification(userCredential.user);
-                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین (Verification) بۆ ئیمەیڵەکەت نێردرا.");
+                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین بۆ ئیمەیڵەکەت نێردرا.");
                     await signOut(auth);
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -444,7 +444,10 @@
 
             const type = document.getElementById('trans-type').value;
             const name = document.getElementById('trans-name').value;
-            const weight = parseFloat(document.getElementById('trans-weight').value);
+            const isCurrency = currentMaterial === 'usd' || currentMaterial === 'iqd';
+            
+            const weightVal = document.getElementById('trans-weight').value;
+            const weight = weightVal ? parseFloat(weightVal) : 0;
             const price = parseFloat(document.getElementById('trans-price').value);
             const date = document.getElementById('trans-date').value;
 
@@ -454,9 +457,9 @@
                     material: currentMaterial,
                     type,
                     name,
-                    weight,
+                    weight: isCurrency ? 0 : weight,
                     price,
-                    total: weight * price,
+                    total: isCurrency ? price : (weight * price),
                     date,
                     createdAt: new Date()
                 });
@@ -479,23 +482,57 @@
 
         window.switchTab = (material) => {
             currentMaterial = material;
-            ['gold', 'silver_palm', 'silver_marmar', 'gold_coin', 'copper'].forEach(m => {
+            ['gold', 'silver_palm', 'silver_marmar', 'gold_coin', 'copper', 'usd', 'iqd'].forEach(m => {
                 const btn = document.getElementById(`tab-${m}`);
                 if (btn) btn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white";
             });
 
             const activeBtn = document.getElementById(`tab-${material}`);
             const titleElement = document.getElementById('current-material-title');
+            const weightContainer = document.getElementById('container-weight');
+            const weightInput = document.getElementById('trans-weight');
 
             const isCoin = material === 'gold_coin';
-            document.getElementById('label-weight').innerText = isCoin ? "ژمارە (دانە)" : "کێش (کیلۆگرام)";
-            document.getElementById('label-price').innerText = isCoin ? "نرخی یەک دانە ($)" : "نرخی یەک کگم ($)";
-            document.getElementById('th-weight').innerText = isCoin ? "ژمارە (دانە)" : "کێش (کگم)";
-            document.getElementById('th-price').innerText = isCoin ? "نرخ/دانە" : "نرخ/کگم";
-            document.getElementById('card-buy-title').innerText = isCoin ? "کۆی ژمارەی کڕین" : "کۆی کێشی کڕین";
-            document.getElementById('card-sell-title').innerText = isCoin ? "کۆی ژمارەی فرۆشتن" : "کۆی کێشی فرۆشتن";
-            document.getElementById('unit-stat-1').innerText = isCoin ? "دانە" : "کگم";
-            document.getElementById('unit-stat-2').innerText = isCoin ? "دانە" : "کگم";
+            const isCurrency = material === 'usd' || material === 'iqd';
+
+            if(isCurrency) {
+                weightContainer.classList.add('hidden');
+                weightInput.removeAttribute('required');
+            } else {
+                weightContainer.classList.remove('hidden');
+                weightInput.setAttribute('required', 'true');
+            }
+
+            if(material === 'usd' || material === 'iqd') {
+                const curSymbol = material === 'usd' ? '$' : 'د.ع';
+                document.getElementById('opt-buy').innerText = "دۆلاری/دیناری هاتوو";
+                document.getElementById('opt-sell').innerText = "دۆلاری/دیناری ڕۆشتوو";
+                document.getElementById('label-price').innerText = `بڕی پارە (${curSymbol})`;
+                document.getElementById('th-price').innerText = `بڕ (${curSymbol})`;
+                document.getElementById('th-weight').classList.add('hidden');
+                document.getElementById('th-total').classList.add('hidden');
+                document.getElementById('card-stat-1-title').innerText = material === 'usd' ? "دۆلاری هاتوو" : "دیناری هاتوو";
+                document.getElementById('card-stat-2-title').innerText = material === 'usd' ? "دۆلاری ڕۆشتوو" : "دیناری ڕۆشتوو";
+                document.getElementById('card-stat-3-title').innerText = material === 'usd' ? "دۆلاری هەبوو" : "دیناری هەبوو";
+                document.getElementById('stat-1-unit').innerText = curSymbol;
+                document.getElementById('stat-2-unit').innerText = curSymbol;
+                document.getElementById('stat-3-prefix').innerText = curSymbol;
+            } else {
+                document.getElementById('opt-buy').innerText = "کڕین (خەرجی)";
+                document.getElementById('opt-sell').innerText = "فرۆشتن (داهات)";
+                document.getElementById('label-weight').innerText = isCoin ? "ژمارە (دانە)" : "کێش (کیلۆگرام)";
+                document.getElementById('label-price').innerText = isCoin ? "نرخی یەک دانە ($)" : "نرخی یەک کگم ($)";
+                document.getElementById('th-price').innerText = isCoin ? "نرخ/دانە" : "نرخ/کگم";
+                document.getElementById('th-weight').innerText = isCoin ? "ژمارە (دانە)" : "کێش (کگم)";
+                document.getElementById('th-weight').classList.remove('hidden');
+                document.getElementById('th-total').classList.remove('hidden');
+                document.getElementById('card-stat-1-title').innerText = isCoin ? "کۆی ژمارەی کڕین" : "کۆی کێشی کڕین";
+                document.getElementById('card-stat-2-title').innerText = isCoin ? "کۆی ژمارەی فرۆشتن" : "کۆی کێشی فرۆشتن";
+                document.getElementById('card-stat-3-title').innerText = "کۆی بڕی کڕین ($)";
+                document.getElementById('stat-1-unit').innerText = isCoin ? "دانە" : "کگم";
+                document.getElementById('stat-2-unit').innerText = isCoin ? "دانە" : "کگم";
+                document.getElementById('stat-3-prefix').innerText = "$";
+            }
 
             if (material === 'gold') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-yellow-500 text-slate-950 shadow-md";
@@ -513,10 +550,18 @@
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md";
                 titleElement.innerText = "لیرەی ئاڵتون";
                 titleElement.className = "coin-text font-black";
-            } else {
+            } else if (material === 'copper') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-amber-700 text-white shadow-md";
                 titleElement.innerText = "مس";
                 titleElement.className = "copper-text font-black";
+            } else if (material === 'usd') {
+                activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-emerald-500 text-slate-950 shadow-md";
+                titleElement.innerText = "دۆلار";
+                titleElement.className = "usd-text font-black";
+            } else if (material === 'iqd') {
+                activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-blue-600 text-white shadow-md";
+                titleElement.innerText = "دینار";
+                titleElement.className = "iqd-text font-black";
             }
 
             renderData();
@@ -528,8 +573,30 @@
 
             onSnapshot(q, (snapshot) => {
                 currentData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderGlobalStock();
                 renderData();
             });
+        }
+
+        // Calculate "چەندم هەیە" for materials
+        function renderGlobalStock() {
+            const stocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0 };
+            
+            currentData.forEach(item => {
+                if (stocks.hasOwnProperty(item.material)) {
+                    if (item.type === 'buy') {
+                        stocks[item.material] += item.weight || 0;
+                    } else if (item.type === 'sell') {
+                        stocks[item.material] -= item.weight || 0;
+                    }
+                }
+            });
+
+            document.getElementById('stock-gold').innerText = stocks.gold.toLocaleString('en-US');
+            document.getElementById('stock-silver-marmar').innerText = stocks.silver_marmar.toLocaleString('en-US');
+            document.getElementById('stock-silver-palm').innerText = stocks.silver_palm.toLocaleString('en-US');
+            document.getElementById('stock-gold-coin').innerText = stocks.gold_coin.toLocaleString('en-US');
+            document.getElementById('stock-copper').innerText = stocks.copper.toLocaleString('en-US');
         }
 
         function renderData() {
@@ -538,48 +605,79 @@
             const filtered = currentData.filter(i => i.material === currentMaterial);
 
             tableBody.innerHTML = '';
-            let buyWeight = 0, sellWeight = 0, buyTotal = 0, sellTotal = 0;
+            let stat1 = 0, stat2 = 0, stat3 = 0;
+
+            const isCurrency = currentMaterial === 'usd' || currentMaterial === 'iqd';
 
             if (filtered.length === 0) {
                 emptyState.classList.remove('hidden');
             } else {
                 emptyState.classList.add('hidden');
                 filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
-                    if (item.type === 'buy') {
-                        buyWeight += item.weight;
-                        buyTotal += item.total;
+                    if (isCurrency) {
+                        if (item.type === 'buy') stat1 += item.price; // USD/IQD In (هاتوو)
+                        else stat2 += item.price; // USD/IQD Out (ڕۆشتوو)
                     } else {
-                        sellWeight += item.weight;
-                        sellTotal += item.total;
+                        if (item.type === 'buy') {
+                            stat1 += item.weight;
+                            stat3 += item.total;
+                        } else {
+                            stat2 += item.weight;
+                        }
                     }
 
                     const row = document.createElement('tr');
                     row.className = "hover:bg-slate-800/40 transition-colors";
-                    row.innerHTML = `
-                        <td class="p-2.5 text-slate-400">${item.date}</td>
-                        <td class="p-2.5 font-semibold text-white">${item.name}</td>
-                        <td class="p-2.5">
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.type === 'buy' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
-                                ${item.type === 'buy' ? 'کڕین' : 'فرۆشتن'}
-                            </span>
-                        </td>
-                        <td class="p-2.5">${item.weight.toLocaleString('en-US')} ${currentMaterial === 'gold_coin' ? 'دانە' : 'کگم'}</td>
-                        <td class="p-2.5">$${item.price.toLocaleString('en-US')}</td>
-                        <td class="p-2.5 font-bold ${item.type === 'buy' ? 'text-emerald-400' : 'text-rose-400'}">$${item.total.toLocaleString('en-US')}</td>
-                        <td class="p-2.5 text-center">
-                            <button onclick="deleteTransaction('${item.id}')" class="text-slate-500 hover:text-rose-400 transition-colors p-1">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </td>
-                    `;
+                    
+                    if(isCurrency) {
+                        row.innerHTML = `
+                            <td class="p-2.5 text-slate-400">${item.date}</td>
+                            <td class="p-2.5 font-semibold text-white">${item.name}</td>
+                            <td class="p-2.5">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.type === 'buy' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+                                    ${item.type === 'buy' ? 'هاتوو' : 'ڕۆشتوو'}
+                                </span>
+                            </td>
+                            <td class="p-2.5 font-bold ${item.type === 'buy' ? 'text-emerald-400' : 'text-rose-400'}">${item.price.toLocaleString('en-US')} ${currentMaterial === 'usd' ? '$' : 'د.ع'}</td>
+                            <td class="p-2.5 text-center">
+                                <button onclick="deleteTransaction('${item.id}')" class="text-slate-500 hover:text-rose-400 transition-colors p-1">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        `;
+                    } else {
+                        row.innerHTML = `
+                            <td class="p-2.5 text-slate-400">${item.date}</td>
+                            <td class="p-2.5 font-semibold text-white">${item.name}</td>
+                            <td class="p-2.5">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.type === 'buy' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+                                    ${item.type === 'buy' ? 'کڕین' : 'فرۆشتن'}
+                                </span>
+                            </td>
+                            <td class="p-2.5">${item.weight.toLocaleString('en-US')} ${currentMaterial === 'gold_coin' ? 'دانە' : 'کگم'}</td>
+                            <td class="p-2.5">$${item.price.toLocaleString('en-US')}</td>
+                            <td class="p-2.5 font-bold ${item.type === 'buy' ? 'text-emerald-400' : 'text-rose-400'}">$${item.total.toLocaleString('en-US')}</td>
+                            <td class="p-2.5 text-center">
+                                <button onclick="deleteTransaction('${item.id}')" class="text-slate-500 hover:text-rose-400 transition-colors p-1">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        `;
+                    }
                     tableBody.appendChild(row);
                 });
             }
 
-            document.getElementById('stat-buy-weight').innerText = buyWeight.toLocaleString('en-US');
-            document.getElementById('stat-sell-weight').innerText = sellWeight.toLocaleString('en-US');
-            document.getElementById('stat-buy-total').innerText = buyTotal.toLocaleString('en-US');
-            document.getElementById('stat-sell-total').innerText = sellTotal.toLocaleString('en-US');
+            if(isCurrency) {
+                stat3 = stat1 - stat2; // Available USD or IQD (هەبوو)
+                document.getElementById('stat-1-val').innerText = stat1.toLocaleString('en-US');
+                document.getElementById('stat-2-val').innerText = stat2.toLocaleString('en-US');
+                document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');
+            } else {
+                document.getElementById('stat-1-val').innerText = stat1.toLocaleString('en-US');
+                document.getElementById('stat-2-val').innerText = stat2.toLocaleString('en-US');
+                document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');
+            }
         }
     </script>
     <script>

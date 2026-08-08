@@ -308,10 +308,10 @@
                 <h3 class="text-lg font-bold"><span id="stat-3-prefix" class="text-emerald-400">$</span><span id="stat-3-val">0</span></h3>
             </div>
 
-            <!-- Stat 4 (NEW) -->
+            <!-- Stat 4 -->
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-amber-500 flex flex-col justify-between" id="stat-4-container">
                 <div class="flex justify-between items-start mb-1">
-                    <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-4-title">کۆی بڕی ڕۆشتوو بە $</span>
+                    <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-4-title">کۆی بڕی فرۆشتن بە $</span>
                     <div class="p-1 bg-amber-500/10 rounded-lg text-amber-400 text-[10px]"><i class="fa-solid fa-hand-holding-dollar"></i></div>
                 </div>
                 <h3 class="text-lg font-bold text-white"><span id="stat-4-prefix" class="text-amber-400">$</span><span id="stat-4-val">0</span></h3>
@@ -335,7 +335,7 @@
                     <table class="w-full text-right text-xs text-slate-300">
                         <thead class="bg-slate-900/90 text-[11px] uppercase text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-2.5">بەروار و کات</th>
+                                <th class="p-2.5">بەروار و کات (AM/PM)</th>
                                 <th class="p-2.5">ناو / تێبینی</th>
                                 <th class="p-2.5">جۆر</th>
                                 <th class="p-2.5" id="th-weight">کێش (کگم)</th>
@@ -446,6 +446,27 @@
         let currentData = [];
         let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
         let activeSymbol = 'OANDA:XAUUSD';
+
+        // Helper function for 12-Hour AM/PM Time Format
+        function formatDateTime12H(isoDateString) {
+            if (!isoDateString) return '';
+            const date = new Date(isoDateString);
+            if (isNaN(date.getTime())) return isoDateString; // fallback
+
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+
+            let hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            hours = hours % 12;
+            hours = hours ? hours : 12; // convert 0 to 12
+            const strHours = String(hours).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${strHours}:${minutes} ${ampm}`;
+        }
 
         function setCurrentDateTime() {
             const now = new Date();
@@ -709,14 +730,12 @@
                 weightContainer.classList.add('hidden');
                 weightInput.removeAttribute('required');
                 
-                // شاردنەوەی کارتی ٤ بۆ دۆلار و دینار و ڕێکخستنی شێوەکەی بە ٣ کارت
                 document.getElementById('stat-4-container').classList.add('hidden');
                 statsContainer.className = "grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5";
             } else {
                 weightContainer.classList.remove('hidden');
                 weightInput.setAttribute('required', 'true');
                 
-                // پیشاندانی کارتی ٤ بۆ ئاڵتون و زیو و مس و ڕێکخستنی شێوەکەی
                 document.getElementById('stat-4-container').classList.remove('hidden');
                 statsContainer.className = "grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5";
             }
@@ -747,7 +766,7 @@
                 document.getElementById('card-stat-1-title').innerText = isCoin ? "کۆی ژمارەی کڕین" : "کۆی کێشی کڕین";
                 document.getElementById('card-stat-2-title').innerText = isCoin ? "کۆی ژمارەی فرۆشتن" : "کۆی کێشی فرۆشتن";
                 document.getElementById('card-stat-3-title').innerText = "کۆی بڕی کڕین ($)";
-                document.getElementById('card-stat-4-title').innerText = "کۆی بڕی ڕۆشتوو بە $";
+                document.getElementById('card-stat-4-title').innerText = "کۆی بڕی فرۆشتن بە $";
                 document.getElementById('stat-1-unit').innerText = isCoin ? "دانە" : "کگم";
                 document.getElementById('stat-2-unit').innerText = isCoin ? "دانە" : "کگم";
                 document.getElementById('stat-3-prefix').innerText = "$";
@@ -852,21 +871,21 @@
                 emptyState.classList.add('hidden');
                 filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
                     
-                    // ژماردنی ئامارەکان
                     if (isCurrency) {
                         if (item.type === 'buy') stat1 += item.price;
                         else stat2 += item.price;
                     } else {
                         if (item.type === 'buy') {
-                            stat1 += item.weight; // کێشی کڕین
-                            stat3 += item.total;  // پارەی کڕین
+                            stat1 += item.weight;
+                            stat3 += item.total;
                         } else {
-                            stat2 += item.weight; // کێشی فرۆشتن
-                            stat4 += item.total;  // پارەی فرۆشتن (ڕۆشتوو)
+                            stat2 += item.weight;
+                            stat4 += item.total;
                         }
                     }
 
-                    const formattedDate = item.date ? item.date.replace('T', ' ') : '';
+                    // Format Date to 12-Hour format (AM / PM)
+                    const formattedDate = formatDateTime12H(item.date);
 
                     const row = document.createElement('tr');
                     row.className = "hover:bg-slate-800/40 transition-colors";
@@ -910,7 +929,6 @@
                 });
             }
 
-            // پیشاندانی ئامارەکان لەسەر شاشە
             if(isCurrency) {
                 const base = baseStocks[currentMaterial] || 0;
                 stat3 = base + stat1 - stat2;
@@ -924,7 +942,6 @@
                 document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');
                 document.getElementById('stat-3-val').className = "text-emerald-400";
                 
-                // بەشی نوێ بۆ پیشاندانی بڕی ڕۆشتوو
                 document.getElementById('stat-4-val').innerText = stat4.toLocaleString('en-US');
             }
         }

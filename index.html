@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -92,6 +92,52 @@
         </div>
     </div>
 
+    <!-- Edit Stock Modal (مۆداڵی دەستکاریکردنی هەبووەکان) -->
+    <div id="edit-stock-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl">
+            <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-yellow-500"></i> دەستکاریکردنی بەردەست (چەندم هەیە)
+            </h3>
+            <p class="text-xs text-slate-400 mb-4">لێرەدا دەتوانیت بڕی سەرەتایی هەموو کاڵاکان و بڕی پارەکەت بەدەستی خۆت بنووسیت:</p>
+            
+            <div class="space-y-3 max-h-80 overflow-y-auto no-scrollbar pr-1">
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">ئاڵتون (کگم)</span>
+                    <input type="number" step="0.001" id="input-stock-gold" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-yellow-500 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">زیوی مەڕمەڕ (کگم)</span>
+                    <input type="number" step="0.001" id="input-stock-silver-marmar" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-slate-300 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">زیوی پاڵم (کگم)</span>
+                    <input type="number" step="0.001" id="input-stock-silver-palm" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-slate-300 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">لیرەی ئاڵتون (دانە)</span>
+                    <input type="number" step="1" id="input-stock-gold-coin" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-amber-400 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">مس (کگم)</span>
+                    <input type="number" step="0.001" id="input-stock-copper" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-amber-600 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">دۆلار ($)</span>
+                    <input type="number" step="1" id="input-stock-usd" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-emerald-400 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+                <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-300">دینار (د.ع)</span>
+                    <input type="number" step="250" id="input-stock-iqd" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-blue-400 font-bold focus:outline-none focus:border-yellow-500">
+                </div>
+            </div>
+
+            <div class="flex gap-2 mt-4">
+                <button onclick="saveCustomStock()" class="flex-1 gold-gradient text-slate-950 font-bold py-2.5 rounded-xl text-xs">پاشەکەوتکردن</button>
+                <button onclick="closeEditStockModal()" class="flex-1 bg-slate-800 text-slate-300 py-2.5 rounded-xl text-xs">پاشگەزبوونەوە</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Header UI -->
     <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-lg">
         <div class="max-w-7xl mx-auto px-4 py-3">
@@ -149,61 +195,76 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow">
 
-        <!-- ⭐ NEW: Global Stock Overview Card ("چەندم هەیە") ⭐ -->
-        <div class="glass-card rounded-2xl p-4 border border-yellow-500/30 mb-6 shadow-xl bg-slate-900/40">
-            <h2 class="text-xs font-bold text-yellow-500 mb-3 flex items-center gap-2 border-b border-slate-800 pb-2">
-                <i class="fa-solid fa-boxes-stacked"></i> کۆی گشتی بەرھەمەکان (چەندم هەیە)
-            </h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-center">
-                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-                    <p class="text-[10px] text-slate-400 font-medium">ئاڵتون</p>
-                    <p class="text-sm font-black gold-text mt-0.5"><span id="stock-gold">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+        <!-- ⭐ NEW: Compact & Editable Stock Card ⭐ -->
+        <div class="glass-card rounded-2xl p-3.5 border border-yellow-500/20 mb-5 shadow-lg bg-slate-900/50">
+            <div class="flex justify-between items-center mb-2.5 border-b border-slate-800/80 pb-2">
+                <h2 class="text-xs font-bold text-yellow-500 flex items-center gap-1.5">
+                    <i class="fa-solid fa-boxes-stacked"></i> کۆی بەردەست (چەندم هەیە)
+                </h2>
+                <button onclick="openEditStockModal()" class="text-[11px] text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
+                    <i class="fa-solid fa-pen-to-square text-yellow-500"></i> دەستکاریکردنی بڕ
+                </button>
+            </div>
+
+            <!-- Dynamic Compact Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center">
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                    <p class="text-[10px] text-slate-400">ئاڵتون</p>
+                    <p class="text-xs font-black gold-text mt-0.5"><span id="stock-gold">0</span> <span class="text-[9px] text-slate-500 font-normal">کگم</span></p>
                 </div>
-                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-                    <p class="text-[10px] text-slate-400 font-medium">زیوی مەڕمەڕ</p>
-                    <p class="text-sm font-black silver-text mt-0.5"><span id="stock-silver-marmar">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                    <p class="text-[10px] text-slate-400">زیوی مەڕمەڕ</p>
+                    <p class="text-xs font-black silver-text mt-0.5"><span id="stock-silver-marmar">0</span> <span class="text-[9px] text-slate-500 font-normal">کگم</span></p>
                 </div>
-                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-                    <p class="text-[10px] text-slate-400 font-medium">زیوی پاڵم</p>
-                    <p class="text-sm font-black silver-text mt-0.5"><span id="stock-silver-palm">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                    <p class="text-[10px] text-slate-400">زیوی پاڵم</p>
+                    <p class="text-xs font-black silver-text mt-0.5"><span id="stock-silver-palm">0</span> <span class="text-[9px] text-slate-500 font-normal">کگم</span></p>
                 </div>
-                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
-                    <p class="text-[10px] text-slate-400 font-medium">لیرەی ئاڵتون</p>
-                    <p class="text-sm font-black coin-text mt-0.5"><span id="stock-gold-coin">0</span> <span class="text-[10px] text-slate-400 font-normal">دانە</span></p>
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                    <p class="text-[10px] text-slate-400">لیرەی ئاڵتون</p>
+                    <p class="text-xs font-black coin-text mt-0.5"><span id="stock-gold-coin">0</span> <span class="text-[9px] text-slate-500 font-normal">دانە</span></p>
                 </div>
-                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 col-span-2 sm:col-span-1">
-                    <p class="text-[10px] text-slate-400 font-medium">مس</p>
-                    <p class="text-sm font-black copper-text mt-0.5"><span id="stock-copper">0</span> <span class="text-[10px] text-slate-400 font-normal">کگم</span></p>
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                    <p class="text-[10px] text-slate-400">مس</p>
+                    <p class="text-xs font-black copper-text mt-0.5"><span id="stock-copper">0</span> <span class="text-[9px] text-slate-500 font-normal">کگم</span></p>
+                </div>
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
+                    <p class="text-[10px] text-slate-400">دۆلار</p>
+                    <p class="text-xs font-black usd-text mt-0.5"><span id="stock-usd">0</span> <span class="text-[9px] text-slate-500 font-normal">$</span></p>
+                </div>
+                <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80 col-span-2 sm:col-span-1">
+                    <p class="text-[10px] text-slate-400">دینار</p>
+                    <p class="text-xs font-black iqd-text mt-0.5"><span id="stock-iqd">0</span> <span class="text-[9px] text-slate-500 font-normal">د.ع</span></p>
                 </div>
             </div>
         </div>
 
-        <!-- Dynamic Statistics Cards for active Tab -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 mb-6" id="stats-container">
-            <div class="glass-card rounded-2xl p-4 border-r-4 border-emerald-500">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold" id="card-stat-1-title">کۆی کێشی کڕین</span>
-                    <div class="p-1.5 bg-emerald-500/10 rounded-lg text-emerald-400 text-xs"><i class="fa-solid fa-arrow-down"></i></div>
+        <!-- Statistics Cards for active Tab -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5" id="stats-container">
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-emerald-500">
+                <div class="flex justify-between items-start mb-1">
+                    <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-1-title">کۆی کێشی کڕین</span>
+                    <div class="p-1 bg-emerald-500/10 rounded-lg text-emerald-400 text-[10px]"><i class="fa-solid fa-arrow-down"></i></div>
                 </div>
-                <h3 class="text-xl font-bold text-white"><span id="stat-1-val">0</span> <span class="text-xs text-slate-400" id="stat-1-unit">کگم</span></h3>
+                <h3 class="text-lg font-bold text-white"><span id="stat-1-val">0</span> <span class="text-xs text-slate-400" id="stat-1-unit">کگم</span></h3>
             </div>
 
-            <div class="glass-card rounded-2xl p-4 border-r-4 border-rose-500">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold" id="card-stat-2-title">کۆی کێشی فرۆشتن</span>
-                    <div class="p-1.5 bg-rose-500/10 rounded-lg text-rose-400 text-xs"><i class="fa-solid fa-arrow-up"></i></div>
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-rose-500">
+                <div class="flex justify-between items-start mb-1">
+                    <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-2-title">کۆی کێشی فرۆشتن</span>
+                    <div class="p-1 bg-rose-500/10 rounded-lg text-rose-400 text-[10px]"><i class="fa-solid fa-arrow-up"></i></div>
                 </div>
-                <h3 class="text-xl font-bold text-white"><span id="stat-2-val">0</span> <span class="text-xs text-slate-400" id="stat-2-unit">کگم</span></h3>
+                <h3 class="text-lg font-bold text-white"><span id="stat-2-val">0</span> <span class="text-xs text-slate-400" id="stat-2-unit">کگم</span></h3>
             </div>
 
-            <div class="glass-card rounded-2xl p-4 border-r-4 border-blue-500">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-slate-400 text-xs font-semibold" id="card-stat-3-title">کۆی بڕی کڕین ($)</span>
-                    <div class="p-1.5 bg-blue-500/10 rounded-lg text-blue-400 text-xs"><i class="fa-solid fa-wallet"></i></div>
+            <div class="glass-card rounded-2xl p-3.5 border-r-4 border-blue-500">
+                <div class="flex justify-between items-start mb-1">
+                    <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-3-title">کۆی بڕی کڕین ($)</span>
+                    <div class="p-1 bg-blue-500/10 rounded-lg text-blue-400 text-[10px]"><i class="fa-solid fa-wallet"></i></div>
                 </div>
-                <h3 class="text-xl font-bold text-emerald-400"><span id="stat-3-prefix">$</span><span id="stat-3-val">0</span></h3>
+                <h3 class="text-lg font-bold text-emerald-400"><span id="stat-3-prefix">$</span><span id="stat-3-val">0</span></h3>
             </div>
         </div>
 
@@ -306,7 +367,7 @@
             setPersistence,
             browserLocalPersistence 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where, getDocs, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDWaA1WE2hL4lCTsu4EHQRg1_rGcFKny-M",
@@ -326,6 +387,7 @@
         let isSignup = false;
         let currentMaterial = 'gold';
         let currentData = [];
+        let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
 
         document.getElementById('trans-date').valueAsDate = new Date();
 
@@ -350,6 +412,44 @@
                 } catch(err) {
                     alert("هەڵە لە گۆڕینی ناو: " + err.message);
                 }
+            }
+        };
+
+        // Modal for editing stock
+        window.openEditStockModal = () => {
+            document.getElementById('input-stock-gold').value = baseStocks.gold || 0;
+            document.getElementById('input-stock-silver-marmar').value = baseStocks.silver_marmar || 0;
+            document.getElementById('input-stock-silver-palm').value = baseStocks.silver_palm || 0;
+            document.getElementById('input-stock-gold-coin').value = baseStocks.gold_coin || 0;
+            document.getElementById('input-stock-copper').value = baseStocks.copper || 0;
+            document.getElementById('input-stock-usd').value = baseStocks.usd || 0;
+            document.getElementById('input-stock-iqd').value = baseStocks.iqd || 0;
+
+            document.getElementById('edit-stock-modal').classList.remove('hidden');
+        };
+
+        window.closeEditStockModal = () => {
+            document.getElementById('edit-stock-modal').classList.add('hidden');
+        };
+
+        window.saveCustomStock = async () => {
+            if(!currentUser) return;
+            baseStocks = {
+                gold: parseFloat(document.getElementById('input-stock-gold').value) || 0,
+                silver_marmar: parseFloat(document.getElementById('input-stock-silver-marmar').value) || 0,
+                silver_palm: parseFloat(document.getElementById('input-stock-silver-palm').value) || 0,
+                gold_coin: parseFloat(document.getElementById('input-stock-gold-coin').value) || 0,
+                copper: parseFloat(document.getElementById('input-stock-copper').value) || 0,
+                usd: parseFloat(document.getElementById('input-stock-usd').value) || 0,
+                iqd: parseFloat(document.getElementById('input-stock-iqd').value) || 0
+            };
+
+            try {
+                await setDoc(doc(db, "user_settings", currentUser.uid), { baseStocks });
+                closeEditStockModal();
+                renderGlobalStock();
+            } catch(err) {
+                alert("کێشەیەک ڕوودا لە پاشەکەوتکردن: " + err.message);
             }
         };
 
@@ -424,12 +524,21 @@
             signOut(auth);
         };
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             const loadingScreen = document.getElementById('loading-screen');
             if (user && user.emailVerified) {
                 currentUser = user;
                 document.getElementById('auth-screen').classList.add('hidden');
                 document.getElementById('user-display').innerText = user.displayName || user.email;
+
+                // Load Base Stocks
+                try {
+                    const docSnap = await getDoc(doc(db, "user_settings", currentUser.uid));
+                    if(docSnap.exists() && docSnap.data().baseStocks) {
+                        baseStocks = docSnap.data().baseStocks;
+                    }
+                } catch(e) { console.log(e); }
+
                 listenToData();
             } else {
                 currentUser = null;
@@ -578,25 +687,30 @@
             });
         }
 
-        // Calculate "چەندم هەیە" for materials
+        // Calculate Global Stock with Base Stock included
         function renderGlobalStock() {
-            const stocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0 };
+            const stocks = { ...baseStocks };
             
             currentData.forEach(item => {
-                if (stocks.hasOwnProperty(item.material)) {
-                    if (item.type === 'buy') {
-                        stocks[item.material] += item.weight || 0;
-                    } else if (item.type === 'sell') {
-                        stocks[item.material] -= item.weight || 0;
+                const mat = item.material;
+                if (stocks.hasOwnProperty(mat)) {
+                    if (mat === 'usd' || mat === 'iqd') {
+                        if (item.type === 'buy') stocks[mat] += item.price || 0;
+                        else if (item.type === 'sell') stocks[mat] -= item.price || 0;
+                    } else {
+                        if (item.type === 'buy') stocks[mat] += item.weight || 0;
+                        else if (item.type === 'sell') stocks[mat] -= item.weight || 0;
                     }
                 }
             });
 
-            document.getElementById('stock-gold').innerText = stocks.gold.toLocaleString('en-US');
-            document.getElementById('stock-silver-marmar').innerText = stocks.silver_marmar.toLocaleString('en-US');
-            document.getElementById('stock-silver-palm').innerText = stocks.silver_palm.toLocaleString('en-US');
-            document.getElementById('stock-gold-coin').innerText = stocks.gold_coin.toLocaleString('en-US');
-            document.getElementById('stock-copper').innerText = stocks.copper.toLocaleString('en-US');
+            document.getElementById('stock-gold').innerText = (stocks.gold || 0).toLocaleString('en-US');
+            document.getElementById('stock-silver-marmar').innerText = (stocks.silver_marmar || 0).toLocaleString('en-US');
+            document.getElementById('stock-silver-palm').innerText = (stocks.silver_palm || 0).toLocaleString('en-US');
+            document.getElementById('stock-gold-coin').innerText = (stocks.gold_coin || 0).toLocaleString('en-US');
+            document.getElementById('stock-copper').innerText = (stocks.copper || 0).toLocaleString('en-US');
+            document.getElementById('stock-usd').innerText = (stocks.usd || 0).toLocaleString('en-US');
+            document.getElementById('stock-iqd').innerText = (stocks.iqd || 0).toLocaleString('en-US');
         }
 
         function renderData() {
@@ -615,8 +729,8 @@
                 emptyState.classList.add('hidden');
                 filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
                     if (isCurrency) {
-                        if (item.type === 'buy') stat1 += item.price; // USD/IQD In (هاتوو)
-                        else stat2 += item.price; // USD/IQD Out (ڕۆشتوو)
+                        if (item.type === 'buy') stat1 += item.price; // In
+                        else stat2 += item.price; // Out
                     } else {
                         if (item.type === 'buy') {
                             stat1 += item.weight;
@@ -669,7 +783,8 @@
             }
 
             if(isCurrency) {
-                stat3 = stat1 - stat2; // Available USD or IQD (هەبوو)
+                const base = baseStocks[currentMaterial] || 0;
+                stat3 = base + stat1 - stat2; // Total Available Balance (Base + In - Out)
                 document.getElementById('stat-1-val').innerText = stat1.toLocaleString('en-US');
                 document.getElementById('stat-2-val').innerText = stat2.toLocaleString('en-US');
                 document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');

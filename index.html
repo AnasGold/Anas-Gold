@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anas Gold - سیستەمی بەڕێوەبردن</title>
+    <title>Anas Gold - سیستەمی بەڕێوەبردن و بۆرسە</title>
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,6 +16,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
     <style>
         body { font-family: 'Noto Sans Arabic', sans-serif; background-color: #0b0f19; color: #f8fafc; }
@@ -31,7 +32,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col justify-between pb-16 sm:pb-0">
 
     <!-- Loading Screen -->
     <div id="loading-screen" class="fixed inset-0 bg-slate-950 z-[120] flex flex-col items-center justify-center">
@@ -77,7 +78,70 @@
         </div>
     </div>
 
-    <!-- Edit Profile Modal -->
+    <!-- Header UI -->
+    <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl gold-gradient p-0.5 flex items-center justify-center shadow-md shadow-yellow-500/10">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid fa-gem text-yellow-500 text-sm"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-black tracking-wide gold-text leading-tight">Anas Gold</h1>
+                        <p class="text-[11px] font-semibold text-slate-300 truncate max-w-[150px] sm:max-w-xs" id="user-display">بەکارهێنەر</p>
+                    </div>
+                </div>
+
+                <!-- Main Navigation Tabs (مامەڵەکان / بۆرسە) -->
+                <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
+                    <button onclick="switchMainView('transactions')" id="nav-transactions" class="px-3 sm:px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-yellow-500 text-slate-950 shadow">
+                        <i class="fa-solid fa-list-check ml-1"></i> مامەڵەکان
+                    </button>
+                    <button onclick="switchMainView('market')" id="nav-market" class="px-3 sm:px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-chart-line ml-1"></i> بۆرسە (Meta5)
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-1.5">
+                    <button onclick="openProfileModal()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center" title="دەستکاریکردنی ناو">
+                        <i class="fa-solid fa-pen-to-square text-xs"></i>
+                    </button>
+                    <button onclick="handleLogout()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl transition-colors flex items-center justify-center" title="چوونەدەرەوە">
+                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Material Tabs (کاتی مامەڵەکان) -->
+            <div id="material-tabs-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 pb-1">
+                <button onclick="switchTab('gold')" id="tab-gold" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-yellow-500 text-slate-950 shadow-md">
+                    <i class="fa-solid fa-coins"></i> ئاڵتون
+                </button>
+                <button onclick="switchTab('silver_palm')" id="tab-silver_palm" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-feather-pointed"></i> زیوی پاڵم
+                </button>
+                <button onclick="switchTab('silver_marmar')" id="tab-silver_marmar" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-cube"></i> زیوی مەڕمەڕ
+                </button>
+                <button onclick="switchTab('gold_coin')" id="tab-gold_coin" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i> لیرەی ئاڵتون
+                </button>
+                <button onclick="switchTab('copper')" id="tab-copper" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-cubes"></i> مس
+                </button>
+                <button onclick="switchTab('usd')" id="tab-usd" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-dollar-sign"></i> دۆلار
+                </button>
+                <button onclick="switchTab('iqd')" id="tab-iqd" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
+                    <i class="fa-solid fa-money-bill-wave"></i> دینار
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modals -->
     <div id="profile-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-sm w-full p-6 rounded-2xl border border-slate-800 shadow-2xl">
             <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
@@ -92,7 +156,6 @@
         </div>
     </div>
 
-    <!-- Edit Stock Modal (مۆداڵی دەستکاریکردنی هەبووەکان) -->
     <div id="edit-stock-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl">
             <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
@@ -138,66 +201,9 @@
         </div>
     </div>
 
-    <!-- Header UI -->
-    <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-lg">
-        <div class="max-w-7xl mx-auto px-4 py-3">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl gold-gradient p-0.5 flex items-center justify-center shadow-md shadow-yellow-500/10">
-                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                            <i class="fa-solid fa-gem text-yellow-500 text-sm"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h1 class="text-lg font-black tracking-wide gold-text leading-tight">Anas Gold</h1>
-                        <p class="text-[11px] font-semibold text-slate-300 truncate max-w-[150px] sm:max-w-xs" id="user-display">بەکارهێنەر</p>
-                    </div>
-                </div>
+    <!-- MAIN VIEW 1: TRANSACTIONS (مامەڵەکان) -->
+    <main id="view-transactions" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow">
 
-                <div class="flex items-center gap-1.5">
-                    <button onclick="openProfileModal()" class="w-9 h-9 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center" title="دەستکاریکردنی ناو">
-                        <i class="fa-solid fa-pen-to-square text-xs"></i>
-                    </button>
-                    <button onclick="handleLogout()" class="w-9 h-9 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl transition-colors flex items-center justify-center" title="چوونەدەرەوە">
-                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                    </button>
-                    <button onclick="handleDeleteAccount()" class="w-9 h-9 bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 rounded-xl transition-colors flex items-center justify-center" title="سڕینەوەی ئەکاونت">
-                        <i class="fa-solid fa-user-xmark text-xs"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Navigation Tabs -->
-            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1 pb-1">
-                <button onclick="switchTab('gold')" id="tab-gold" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-yellow-500 text-slate-950 shadow-md">
-                    <i class="fa-solid fa-coins"></i> ئاڵتون
-                </button>
-                <button onclick="switchTab('silver_palm')" id="tab-silver_palm" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
-                    <i class="fa-solid fa-feather-pointed"></i> زیوی پاڵم
-                </button>
-                <button onclick="switchTab('silver_marmar')" id="tab-silver_marmar" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
-                    <i class="fa-solid fa-cube"></i> زیوی مەڕمەڕ
-                </button>
-                <button onclick="switchTab('gold_coin')" id="tab-gold_coin" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
-                    <i class="fa-solid fa-circle-dollar-to-slot"></i> لیرەی ئاڵتون
-                </button>
-                <button onclick="switchTab('copper')" id="tab-copper" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
-                    <i class="fa-solid fa-cubes"></i> مس
-                </button>
-                <button onclick="switchTab('usd')" id="tab-usd" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
-                    <i class="fa-solid fa-dollar-sign"></i> دۆلار
-                </button>
-                <button onclick="switchTab('iqd')" id="tab-iqd" class="whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 text-slate-400 bg-slate-900 border border-slate-800 hover:text-white">
-                    <i class="fa-solid fa-money-bill-wave"></i> دینار
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow">
-
-        <!-- ⭐ NEW: Compact & Editable Stock Card ⭐ -->
         <div class="glass-card rounded-2xl p-3.5 border border-yellow-500/20 mb-5 shadow-lg bg-slate-900/50">
             <div class="flex justify-between items-center mb-2.5 border-b border-slate-800/80 pb-2">
                 <h2 class="text-xs font-bold text-yellow-500 flex items-center gap-1.5">
@@ -208,7 +214,6 @@
                 </button>
             </div>
 
-            <!-- Dynamic Compact Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 text-center">
                 <div class="bg-slate-950/60 p-2 rounded-xl border border-slate-800/80">
                     <p class="text-[10px] text-slate-400">ئاڵتون</p>
@@ -241,7 +246,6 @@
             </div>
         </div>
 
-        <!-- Statistics Cards for active Tab -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5" id="stats-container">
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-emerald-500">
                 <div class="flex justify-between items-start mb-1">
@@ -351,6 +355,53 @@
         </div>
     </main>
 
+    <!-- MAIN VIEW 2: MARKET / FOREX CHART (شێوازی MetaTrader 5) -->
+    <main id="view-market" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow hidden">
+        <div class="glass-card rounded-2xl p-4 border border-slate-800 shadow-xl mb-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <div>
+                    <h2 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-yellow-500"></i> چارتی ڕاستەوخۆی بۆرسە (MetaTrader 5 View)
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5">بەرزبوونەوە و نزمبوونەوەی نرخی بازاڕەکانی جیهان بە کاتی ڕاستەقینە</p>
+                </div>
+
+                <!-- Symbol Switcher Buttons -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="changeSymbol('OANDA:XAUUSD')" id="sym-XAUUSD" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-yellow-500 text-slate-950 transition-all">
+                        <i class="fa-solid fa-coins"></i> زێڕ (XAU/USD)
+                    </button>
+                    <button onclick="changeSymbol('OANDA:XAGUSD')" id="sym-XAGUSD" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
+                        <i class="fa-solid fa-cube"></i> زیو (XAG/USD)
+                    </button>
+                    <button onclick="changeSymbol('TVC:USOIL')" id="sym-USOIL" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
+                        <i class="fa-solid fa-oil-well"></i> نەوت (USOIL)
+                    </button>
+                    <button onclick="changeSymbol('FX:EURUSD')" id="sym-EURUSD" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all">
+                        <i class="fa-solid fa-dollar-sign"></i> EUR/USD
+                    </button>
+                </div>
+            </div>
+
+            <!-- TradingView Chart Container -->
+            <div class="w-full h-[600px] rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950">
+                <div id="tradingview_chart_container" class="w-full h-full"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar (دەستگەیشتنی خێرا لەسەر مۆبایل) -->
+    <div class="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-lg border-t border-slate-800 flex justify-around py-2 z-50 sm:hidden">
+        <button onclick="switchMainView('transactions')" id="mobile-nav-trans" class="flex flex-col items-center text-yellow-500">
+            <i class="fa-solid fa-list-check text-base"></i>
+            <span class="text-[10px] font-bold mt-1">مامەڵەکان</span>
+        </button>
+        <button onclick="switchMainView('market')" id="mobile-nav-market" class="flex flex-col items-center text-slate-400">
+            <i class="fa-solid fa-chart-line text-base"></i>
+            <span class="text-[10px] font-bold mt-1">بۆرسە (Meta5)</span>
+        </button>
+    </div>
+
     <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -388,8 +439,75 @@
         let currentMaterial = 'gold';
         let currentData = [];
         let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
+        let activeSymbol = 'OANDA:XAUUSD';
 
         document.getElementById('trans-date').valueAsDate = new Date();
+
+        // Main View Switcher Function
+        window.switchMainView = (view) => {
+            const transView = document.getElementById('view-transactions');
+            const marketView = document.getElementById('view-market');
+            const navTrans = document.getElementById('nav-transactions');
+            const navMarket = document.getElementById('nav-market');
+            const mobileTrans = document.getElementById('mobile-nav-trans');
+            const mobileMarket = document.getElementById('mobile-nav-market');
+            const materialBar = document.getElementById('material-tabs-bar');
+
+            if (view === 'transactions') {
+                transView.classList.remove('hidden');
+                marketView.classList.add('hidden');
+                materialBar.classList.remove('hidden');
+
+                navTrans.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-yellow-500 text-slate-950 shadow";
+                navMarket.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+                
+                mobileTrans.className = "flex flex-col items-center text-yellow-500";
+                mobileMarket.className = "flex flex-col items-center text-slate-400";
+            } else {
+                transView.classList.add('hidden');
+                marketView.classList.remove('hidden');
+                materialBar.classList.add('hidden');
+
+                navMarket.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-yellow-500 text-slate-950 shadow";
+                navTrans.className = "px-3 sm:px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+
+                mobileMarket.className = "flex flex-col items-center text-yellow-500";
+                mobileTrans.className = "flex flex-col items-center text-slate-400";
+
+                initTradingViewChart(activeSymbol);
+            }
+        };
+
+        // Initialize TradingView Widget Chart
+        window.initTradingViewChart = (symbol) => {
+            new TradingView.widget({
+                "autosize": true,
+                "symbol": symbol,
+                "interval": "60",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "toolbar_bg": "#0b0f19",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "container_id": "tradingview_chart_container"
+            });
+        };
+
+        window.changeSymbol = (symbol) => {
+            activeSymbol = symbol;
+            const symbols = ['OANDA:XAUUSD', 'OANDA:XAGUSD', 'TVC:USOIL', 'FX:EURUSD'];
+            symbols.forEach(s => {
+                const btn = document.getElementById(`sym-${s.split(':')[1]}`);
+                if (btn) btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all";
+            });
+
+            const currentBtn = document.getElementById(`sym-${symbol.split(':')[1]}`);
+            if (currentBtn) currentBtn.className = "px-3 py-1.5 rounded-xl text-xs font-bold bg-yellow-500 text-slate-950 transition-all";
+
+            initTradingViewChart(symbol);
+        };
 
         window.openProfileModal = () => {
             if(currentUser) {
@@ -415,7 +533,6 @@
             }
         };
 
-        // Modal for editing stock
         window.openEditStockModal = () => {
             document.getElementById('input-stock-gold').value = baseStocks.gold || 0;
             document.getElementById('input-stock-silver-marmar').value = baseStocks.silver_marmar || 0;
@@ -502,24 +619,6 @@
             }
         };
 
-        window.handleDeleteAccount = async () => {
-            if (!currentUser) return;
-            if (!confirm("دڵنیایت لە سڕینەوەی ئەم ئەکاونتە؟")) return;
-
-            try {
-                const q = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
-                const snapshot = await getDocs(q);
-                const deletePromises = snapshot.docs.map(docSnapshot => deleteDoc(doc(db, "transactions", docSnapshot.id)));
-                await Promise.all(deletePromises);
-
-                await deleteUser(currentUser);
-                alert("ئەکاونتەکە سڕدرایەوە!");
-                location.reload();
-            } catch (err) {
-                alert("کێشەیەک ڕوودا: " + err.message);
-            }
-        };
-
         window.handleLogout = () => {
             signOut(auth);
         };
@@ -531,7 +630,6 @@
                 document.getElementById('auth-screen').classList.add('hidden');
                 document.getElementById('user-display').innerText = user.displayName || user.email;
 
-                // Load Base Stocks
                 try {
                     const docSnap = await getDoc(doc(db, "user_settings", currentUser.uid));
                     if(docSnap.exists() && docSnap.data().baseStocks) {
@@ -687,7 +785,6 @@
             });
         }
 
-        // Calculate Global Stock with Base Stock included
         function renderGlobalStock() {
             const stocks = { ...baseStocks };
             
@@ -729,8 +826,8 @@
                 emptyState.classList.add('hidden');
                 filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
                     if (isCurrency) {
-                        if (item.type === 'buy') stat1 += item.price; // In
-                        else stat2 += item.price; // Out
+                        if (item.type === 'buy') stat1 += item.price;
+                        else stat2 += item.price;
                     } else {
                         if (item.type === 'buy') {
                             stat1 += item.weight;
@@ -784,7 +881,7 @@
 
             if(isCurrency) {
                 const base = baseStocks[currentMaterial] || 0;
-                stat3 = base + stat1 - stat2; // Total Available Balance (Base + In - Out)
+                stat3 = base + stat1 - stat2;
                 document.getElementById('stat-1-val').innerText = stat1.toLocaleString('en-US');
                 document.getElementById('stat-2-val').innerText = stat2.toLocaleString('en-US');
                 document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');

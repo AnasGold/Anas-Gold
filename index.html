@@ -1,3 +1,4 @@
+ئەمەش کۆدی تەواوی پڕۆژەکەت کە تێیدا بەشی «مامەڵە سڕاوەکان» (سیستەمی ٣٠ ڕۆژی و گەڕاندنەوە) بە سەرکەوتوویی و بە شێوازێکی هاوسەنگ لەگەڵ دیزاینی گشتی زیادکرا:
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
@@ -113,6 +114,9 @@
                         <button onclick="openProfileModalSection('email')" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
                             <i class="fa-solid fa-envelope-open-text text-blue-400 w-4"></i> گۆڕینی ئیمەیڵی هەژمار
                         </button>
+                        <button onclick="openTrashModal()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
+                            <i class="fa-solid fa-clock-rotate-left text-amber-400 w-4"></i> مامەڵە سڕاوەکان (30 ڕۆژ)
+                        </button>
                         <button onclick="handleSwitchAccount()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
                             <i class="fa-solid fa-right-left text-emerald-400 w-4"></i> گۆڕینی ئەکاونت (Switch)
                         </button>
@@ -152,6 +156,30 @@
             </div>
         </div>
     </header>
+
+    <div id="trash-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
+        <div class="glass-card max-w-2xl w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-trash-arrow-up text-amber-500"></i> مامەڵە سڕاوەکان (ماوەی مانەوە: ٣٠ ڕۆژ)
+                </h3>
+                <button onclick="closeTrashModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="overflow-x-auto flex-grow max-h-96">
+                <table class="w-full text-right text-xs text-slate-300">
+                    <thead class="bg-slate-900/90 text-[11px] uppercase text-slate-400 border-b border-slate-800">
+                        <tr>
+                            <th class="p-2.5">بەرواری سڕینەوە</th>
+                            <th class="p-2.5">ناو / تێبینی</th>
+                            <th class="p-2.5">بڕ / کێش</th>
+                            <th class="p-2.5">کردار</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trash-table-body" class="divide-y divide-slate-800/60"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <div id="profile-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -772,6 +800,68 @@
             } catch(err) { alert("هەڵە: " + err.message); }
         };
 
+        window.openTrashModal = () => {
+            document.getElementById('menu-dropdown').classList.add('hidden');
+            document.getElementById('trash-modal').classList.remove('hidden');
+            loadTrashData();
+        };
+
+        window.closeTrashModal = () => document.getElementById('trash-modal').classList.add('hidden');
+
+        async function loadTrashData() {
+            if (!currentUser) return;
+            const trashBody = document.getElementById('trash-table-body');
+            trashBody.innerHTML = '';
+
+            try {
+                const q = query(collection(db, "trash_transactions"), where("userId", "==", currentUser.uid));
+                const snapshot = await getDocs(q);
+                const now = new Date();
+
+                snapshot.forEach(async (docSnap) => {
+                    const data = docSnap.data();
+                    const deletedDate = new Date(data.deletedAt);
+                    const diffTime = Math.abs(now - deletedDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (diffDays > 30) {
+                        await deleteDoc(doc(db, "trash_transactions", docSnap.id));
+                    } else {
+                        const remainingDays = 30 - diffDays;
+                        const row = document.createElement('tr');
+                        row.className = "hover:bg-slate-800/40 transition-colors";
+                        row.innerHTML = `
+                            <td class="p-2.5 text-slate-400">${formatDateTime12H(data.deletedAt)} <br><span class="text-[10px] text-amber-500">(${remainingDays} ڕۆژی ماوە)</span></td>
+                            <td class="p-2.5 font-semibold text-white">${data.name}</td>
+                            <td class="p-2.5">$${data.total || data.price}</td>
+                            <td class="p-2.5">
+                                <button onclick="restoreTransaction('${docSnap.id}')" class="bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all">گەڕاندنەوە</button>
+                            </td>
+                        `;
+                        trashBody.appendChild(row);
+                    }
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        window.restoreTransaction = async (trashId) => {
+            try {
+                const trashDocRef = doc(db, "trash_transactions", trashId);
+                const trashSnap = await getDoc(trashDocRef);
+                if (!trashSnap.exists()) return;
+
+                const data = trashSnap.data();
+                delete data.deletedAt;
+                delete data.id;
+
+                await addDoc(collection(db, "transactions"), data);
+                await deleteDoc(trashDocRef);
+
+                alert("مامەڵەکە بە سەرکەوتوویی گەڕێنرایەوە!");
+                loadTrashData();
+            } catch(e) { alert("هەڵە: " + e.message); }
+        };
+
         window.openEditStockModal = () => {
             document.getElementById('input-stock-gold').value = baseStocks.gold || 0;
             document.getElementById('input-stock-silver-marmar').value = baseStocks.silver_marmar || 0;
@@ -901,7 +991,18 @@
         };
 
         window.deleteTransaction = async (id) => {
-            try { await deleteDoc(doc(db, "transactions", id)); } catch (err) { alert("هەڵە: " + err.message); }
+            try {
+                const itemToTrash = currentData.find(i => i.id === id);
+                if(!itemToTrash) return;
+
+                await addDoc(collection(db, "trash_transactions"), {
+                    ...itemToTrash,
+                    deletedAt: new Date().toISOString()
+                });
+
+                await deleteDoc(doc(db, "transactions", id));
+                alert("مامەڵەکە گوازرایەوە بۆ بەشی سڕاوەکان و بۆ ماوەی ٣٠ ڕۆژ دەمێنێت.");
+            } catch (err) { alert("هەڵە: " + err.message); }
         };
 
         window.switchTab = (material) => {
@@ -1113,3 +1214,4 @@
     </script>
 </body>
 </html>
+

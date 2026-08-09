@@ -161,7 +161,14 @@
                     <i class="fa-solid fa-triangle-exclamation"></i> ناوچەی مەترسی (سڕینەوەی ئەکاونت)
                 </h4>
                 <p class="text-[11px] text-slate-400 mb-3">ئاگاداربە! بە سڕینەوەی ئەکاونتەکەت، هەموو داتاکانت، مامەڵەکانت و سێتینگەکەت لە فایربەیس بە یەکجاری دەسڕێنەوە.</p>
-                <button onclick="deleteUserAccount()" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl text-xs shadow transition-colors flex items-center justify-center gap-2">
+                
+                <div id="delete-password-box" class="hidden mb-3">
+                    <label class="block text-[11px] font-bold text-rose-300 mb-1">بۆ دڵنیابوون، پاسۆردەکەت بنووسە:</label>
+                    <input type="password" id="delete-confirm-password" placeholder="پاسۆردەکەت بنووسە" class="w-full bg-slate-950 border border-rose-900 rounded-xl px-3 py-2 text-xs text-white mb-2 focus:outline-none focus:border-rose-500">
+                    <button onclick="confirmAndDeleteAccount()" class="w-full bg-rose-700 hover:bg-rose-600 text-white font-bold py-2 rounded-xl text-xs shadow transition-colors">دڵنیابوون و سڕینەوەی یەکجارەکی</button>
+                </div>
+
+                <button id="initial-delete-btn" onclick="promptDeleteAccount()" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl text-xs shadow transition-colors flex items-center justify-center gap-2">
                     <i class="fa-solid fa-trash-can"></i> سڕینەوەی یەکجارەکی ئەکاونت و داتاکان
                 </button>
             </div>
@@ -442,6 +449,8 @@
             updateProfile,
             verifyBeforeUpdateEmail,
             deleteUser,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
             setPersistence,
             browserLocalPersistence 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -554,6 +563,8 @@
             if(currentUser) {
                 document.getElementById('new-display-name').value = currentUser.displayName || '';
                 document.getElementById('new-email-input').value = currentUser.email || '';
+                document.getElementById('delete-password-box').classList.add('hidden');
+                document.getElementById('initial-delete-btn').classList.remove('hidden');
                 document.getElementById('profile-modal').classList.remove('hidden');
             }
         };
@@ -590,19 +601,28 @@
                 alert("پشکنین نێردرا بۆ ئیمەیڵی نوێکت! تکایە سەردانی ئیمەیڵە نوێیەکەت بکە و لینکی پێداچوونەوە دابگرە بۆ تەواوبوونی گۆڕانکارییەکە.");
                 closeProfileModal();
             } catch(err) {
-                alert("هەڵە لە گۆڕینی ئیمەیڵ (ڕەنگە پێویست بکات دووبارە بچیتە ژوورەوە): " + err.message);
+                alert("هەڵە لە گۆڕینی ئیمەیڵ: " + err.message);
             }
         };
 
-        window.deleteUserAccount = async () => {
+        window.promptDeleteAccount = () => {
+            document.getElementById('initial-delete-btn').classList.add('hidden');
+            document.getElementById('delete-password-box').classList.remove('hidden');
+        };
+
+        window.confirmAndDeleteAccount = async () => {
             if(!currentUser) return;
-
-            const confirmDelete = confirm("ئایا دڵنیای لە سڕینەوەی یەکجارەکی ئەکاونتەکەت؟ هەموو مامەڵە و زانیارییەکانت دەسڕێنەوە و ئەم کردارە پاشگەزبوونەوەی نییە!");
-            if(!confirmDelete) return;
-
-            const userId = currentUser.uid;
+            const password = document.getElementById('delete-confirm-password').value;
+            if(!password) {
+                alert("تکایە پاسۆردەکەت بنووسە!");
+                return;
+            }
 
             try {
+                const credential = EmailAuthProvider.credential(currentUser.email, password);
+                await reauthenticateWithCredential(currentUser, credential);
+
+                const userId = currentUser.uid;
                 const transQuery = query(collection(db, "transactions"), where("userId", "==", userId));
                 const transSnapshot = await getDocs(transQuery);
                 const batch = writeBatch(db);
@@ -615,9 +635,9 @@
                 try { await deleteDoc(settingsRef); } catch(e) {}
 
                 await deleteUser(currentUser);
-                alert("ئەکاونتەکەت و سەرجەم داتاکانت بە سەرکەوتوویی لە فایربەیس سڕرانەوە.");
+                alert("ئەکاونتەکەت و سەرجەم داتاکانت بە سەرکەوتوویی سڕرانەوە.");
             } catch(err) {
-                alert("هەڵە لە سڕینەوەی ئەکاونت (بۆ پاراستنی ئەمنی، ڕەنگە پێویست بکات دووبارە بچیتە ژوورەوە و پاشان بیسڕیتەوە): " + err.message);
+                alert("هەڵە: پاسۆردەکە هەڵەیە یان کێشەیەک ڕوویدا: " + err.message);
             }
         };
 

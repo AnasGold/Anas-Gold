@@ -93,13 +93,31 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-1.5">
-                    <button onclick="openProfileModal()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center" title="دەستکاریکردنی پڕۆفایل و ئیمەیڵ">
-                        <i class="fa-solid fa-pen-to-square text-xs"></i>
+                <!-- Three Lines Hamburger Menu Button -->
+                <div class="relative">
+                    <button onclick="toggleMenuDropdown()" class="w-9 h-9 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center shadow-md" title="مێنیو">
+                        <i class="fa-solid fa-bars text-sm"></i>
                     </button>
-                    <button onclick="handleLogout()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl transition-colors flex items-center justify-center" title="چوونەدەرەوە">
-                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                    </button>
+
+                    <!-- Dropdown Menu List -->
+                    <div id="menu-dropdown" class="hidden absolute left-0 mt-2 w-56 glass-card rounded-2xl border border-slate-800 shadow-2xl py-2 z-50">
+                        <button onclick="openProfileModalSection('name')" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
+                            <i class="fa-solid fa-user-pen text-yellow-500 w-4"></i> گۆڕینی ناوی هەژمار
+                        </button>
+                        <button onclick="openProfileModalSection('email')" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
+                            <i class="fa-solid fa-envelope-open-text text-blue-400 w-4"></i> گۆڕینی ئیمەیڵی هەژمار
+                        </button>
+                        <button onclick="handleSwitchAccount()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
+                            <i class="fa-solid fa-right-left text-emerald-400 w-4"></i> Switch Account
+                        </button>
+                        <div class="h-px bg-slate-800 my-1"></div>
+                        <button onclick="openProfileModalSection('delete')" class="w-full text-right px-4 py-2.5 text-xs text-rose-400 hover:bg-rose-950/30 flex items-center gap-2.5 transition-colors">
+                            <i class="fa-solid fa-trash-can w-4"></i> سڕینەوەی هەژمار
+                        </button>
+                        <button onclick="handleLogout()" class="w-full text-right px-4 py-2.5 text-xs text-slate-300 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
+                            <i class="fa-solid fa-right-from-bracket text-amber-500 w-4"></i> چوونە دەرەوە لە هەژمار
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -142,21 +160,21 @@
             </div>
 
             <!-- 1. Change Name -->
-            <div class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
+            <div id="section-change-name" class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
                 <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ناوی نمایشکراو</label>
                 <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
                 <button onclick="saveProfileName()" class="w-full gold-gradient text-slate-950 font-bold py-2 rounded-xl text-xs shadow">پاشەکەوتکردنی ناو</button>
             </div>
 
             <!-- 2. Change Email -->
-            <div class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
+            <div id="section-change-email" class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
                 <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ئیمەیڵ (پێویستی بە ڤێریفایە)</label>
                 <input type="email" id="new-email-input" placeholder="ئیمەیڵی نوێ بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
                 <button onclick="updateUserEmail()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs shadow transition-colors">ناردنی پشکنین بۆ ئیمەیڵی نوێ</button>
             </div>
 
             <!-- 3. Delete Account -->
-            <div class="bg-rose-950/30 p-4 rounded-xl border border-rose-900/40">
+            <div id="section-delete-account" class="bg-rose-950/30 p-4 rounded-xl border border-rose-900/40">
                 <h4 class="text-xs font-bold text-rose-400 mb-1 flex items-center gap-1.5">
                     <i class="fa-solid fa-triangle-exclamation"></i> ناوچەی مەترسی (سڕینەوەی ئەکاونت)
                 </h4>
@@ -503,6 +521,21 @@
         }
         setCurrentDateTime();
 
+        // Toggle Menu Dropdown
+        window.toggleMenuDropdown = () => {
+            const menu = document.getElementById('menu-dropdown');
+            menu.classList.toggle('hidden');
+        };
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('menu-dropdown');
+            const btn = document.querySelector('[onclick="toggleMenuDropdown()"]');
+            if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
         window.switchMainView = (view) => {
             const transView = document.getElementById('view-transactions');
             const marketView = document.getElementById('view-market');
@@ -559,18 +592,43 @@
             initTradingViewChart(symbol);
         };
 
-        window.openProfileModal = () => {
-            if(currentUser) {
-                document.getElementById('new-display-name').value = currentUser.displayName || '';
-                document.getElementById('new-email-input').value = currentUser.email || '';
+        window.openProfileModalSection = (section) => {
+            document.getElementById('menu-dropdown').classList.add('hidden');
+            const nameSec = document.getElementById('section-change-name');
+            const emailSec = document.getElementById('section-change-email');
+            const deleteSec = document.getElementById('section-delete-account');
+
+            // Hide all first
+            nameSec.classList.add('hidden');
+            emailSec.classList.add('hidden');
+            deleteSec.classList.add('hidden');
+
+            if (section === 'name') {
+                nameSec.classList.remove('hidden');
+                document.getElementById('new-display-name').value = currentUser?.displayName || '';
+            } else if (section === 'email') {
+                emailSec.classList.remove('hidden');
+                document.getElementById('new-email-input').value = currentUser?.email || '';
+            } else if (section === 'delete') {
+                deleteSec.classList.remove('hidden');
                 document.getElementById('delete-password-box').classList.add('hidden');
                 document.getElementById('initial-delete-btn').classList.remove('hidden');
+            }
+
+            if(currentUser) {
                 document.getElementById('profile-modal').classList.remove('hidden');
             }
         };
 
         window.closeProfileModal = () => {
             document.getElementById('profile-modal').classList.add('hidden');
+        };
+
+        window.handleSwitchAccount = () => {
+            document.getElementById('menu-dropdown').classList.add('hidden');
+            signOut(auth).then(() => {
+                // Will automatically show auth screen via onAuthStateChanged
+            });
         };
 
         window.saveProfileName = async () => {
@@ -728,6 +786,7 @@
         };
 
         window.handleLogout = () => {
+            document.getElementById('menu-dropdown').classList.add('hidden');
             signOut(auth);
         };
 

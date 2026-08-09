@@ -88,19 +88,16 @@
                         </div>
                     </div>
                     <div>
-                        <!-- Header Title (Changes instantly when account name changes) -->
                         <h1 id="header-app-title" class="text-lg font-black tracking-wide gold-text leading-tight">Anas Gold</h1>
                         <p class="text-[11px] font-semibold text-slate-300 truncate max-w-[150px] sm:max-w-xs" id="user-display">بەکارهێنەر</p>
                     </div>
                 </div>
 
-                <!-- Three Lines Hamburger Menu Button -->
                 <div class="relative">
                     <button onclick="toggleMenuDropdown()" class="w-9 h-9 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center shadow-md" title="مێنیو">
                         <i class="fa-solid fa-bars text-sm"></i>
                     </button>
 
-                    <!-- Dropdown Menu List -->
                     <div id="menu-dropdown" class="hidden absolute left-0 mt-2 w-56 glass-card rounded-2xl border border-slate-800 shadow-2xl py-2 z-50">
                         <button onclick="openProfileModalSection('name')" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
                             <i class="fa-solid fa-user-pen text-yellow-500 w-4"></i> گۆڕینی ناوی هەژمار
@@ -150,7 +147,6 @@
     </header>
 
     <!-- Modals -->
-    <!-- Profile & Account Settings Modal -->
     <div id="profile-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
@@ -160,26 +156,23 @@
                 <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <!-- 1. Change Name -->
             <div id="section-change-name" class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
                 <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ناوی نمایشکراو</label>
-                <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە (بۆ نموونە: ANASSS)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
+                <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
                 <button onclick="saveProfileName()" class="w-full gold-gradient text-slate-950 font-bold py-2 rounded-xl text-xs shadow">پاشەکەوتکردنی ناو</button>
             </div>
 
-            <!-- 2. Change Email -->
             <div id="section-change-email" class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
-                <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ئیمەیڵ (پێویستی بە ڤێریفایە)</label>
+                <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ئیمەیڵ</label>
                 <input type="email" id="new-email-input" placeholder="ئیمەیڵی نوێ بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
                 <button onclick="updateUserEmail()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs shadow transition-colors">ناردنی پشکنین بۆ ئیمەیڵی نوێ</button>
             </div>
 
-            <!-- 3. Delete Account -->
             <div id="section-delete-account" class="bg-rose-950/30 p-4 rounded-xl border border-rose-900/40">
                 <h4 class="text-xs font-bold text-rose-400 mb-1 flex items-center gap-1.5">
                     <i class="fa-solid fa-triangle-exclamation"></i> ناوچەی مەترسی (سڕینەوەی ئەکاونت)
                 </h4>
-                <p class="text-[11px] text-slate-400 mb-3">ئاگاداربە! بە سڕینەوەی ئەکاونتەکەت، هەموو داتاکانت، مامەڵەکانت و سێتینگەکەت لە فایربەیس بە یەکجاری دەسڕێنەوە.</p>
+                <p class="text-[11px] text-slate-400 mb-3">ئاگاداربە! بە سڕینەوەی ئەکاونتەکەت، هەموو داتاکانت دەسڕێنەوە.</p>
                 
                 <div id="delete-password-box" class="hidden mb-3">
                     <label class="block text-[11px] font-bold text-rose-300 mb-1">بۆ دڵنیابوون، پاسۆردەکەت بنووسە:</label>
@@ -198,11 +191,10 @@
     <div id="edit-stock-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl">
             <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
-                <i class="fa-solid fa-pen-to-square text-yellow-500"></i> دەستکاریکردنی بەردەست (چەندم هەیە)
+                <i class="fa-solid fa-pen-to-square text-yellow-500"></i> دەستکاریکردنی بەردەست
             </h3>
-            <p class="text-xs text-slate-400 mb-4">لێرەدا دەتوانیت بڕی سەرەتایی هەموو کاڵاکان و بڕی پارەکەت بەدەستی خۆت بنووسیت:</p>
             
-            <div class="space-y-3 max-h-80 overflow-y-auto no-scrollbar pr-1">
+            <div class="space-y-3 max-h-80 overflow-y-auto no-scrollbar pr-1 mt-3">
                 <div class="flex justify-between items-center bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                     <span class="text-xs font-bold text-slate-300">ئاڵتون (کگم)</span>
                     <input type="number" inputmode="decimal" step="0.001" id="input-stock-gold" class="w-32 bg-slate-950 border border-slate-800 text-left px-2 py-1 rounded text-xs text-yellow-500 font-bold focus:outline-none focus:border-yellow-500">
@@ -240,10 +232,9 @@
         </div>
     </div>
 
-    <!-- MAIN VIEW 1: TRANSACTIONS (مامەڵەکان) -->
+    <!-- MAIN VIEW 1: TRANSACTIONS -->
     <main id="view-transactions" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow">
 
-        <!-- ① Transaction Input Form -->
         <div class="glass-card rounded-2xl p-5 sm:p-6 border border-slate-800/80 shadow-2xl mb-6">
             <h2 class="text-lg font-black text-white mb-5 flex items-center gap-2 border-b border-slate-800 pb-3">
                 <i class="fa-solid fa-circle-plus text-yellow-500 text-xl"></i> تۆمارکردنی مامەڵەی نوێ
@@ -285,11 +276,10 @@
             </form>
         </div>
 
-        <!-- ② Stock Summary Card -->
         <div class="glass-card rounded-2xl p-4 border border-yellow-500/20 mb-5 shadow-lg bg-slate-900/50">
             <div class="flex justify-between items-center mb-2.5 border-b border-slate-800/80 pb-2">
                 <h2 class="text-xs font-bold text-yellow-500 flex items-center gap-1.5">
-                    <i class="fa-solid fa-boxes-stacked"></i> کۆی بەردەست (چەندم هەیە)
+                    <i class="fa-solid fa-boxes-stacked"></i> کۆی بەردەست
                 </h2>
                 <button onclick="openEditStockModal()" class="text-[11px] text-slate-400 hover:text-yellow-500 transition-colors flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
                     <i class="fa-solid fa-pen-to-square text-yellow-500"></i> دەستکاریکردنی بڕ
@@ -328,7 +318,6 @@
             </div>
         </div>
 
-        <!-- ③ Stats Bar -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5" id="stats-container">
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-emerald-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
@@ -363,7 +352,6 @@
             </div>
         </div>
 
-        <!-- ④ Transaction History Table -->
         <div class="glass-card rounded-2xl p-5 border border-slate-800/80 shadow-xl flex flex-col justify-between">
             <div>
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 border-b border-slate-800 pb-3">
@@ -371,9 +359,23 @@
                         <i class="fa-solid fa-list-check text-yellow-500"></i>
                         تۆماری مامەڵەکانی <span id="current-material-title" class="gold-text font-black">ئاڵتون</span>
                     </h2>
-                    <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-800 transition-colors flex items-center gap-2">
-                        <i class="fa-solid fa-print"></i> چاپکردنی ڕاپۆرت
-                    </button>
+                    
+                    <!-- Print Dropdown Container (Updated) -->
+                    <div class="relative">
+                        <button onclick="togglePrintMenu()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs px-3.5 py-2 rounded-xl border border-slate-800 transition-colors flex items-center gap-2 shadow font-bold">
+                            <i class="fa-solid fa-print text-yellow-500"></i> چاپکردنی ڕاپۆرت <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                        </button>
+                        
+                        <!-- Print Options Popup Menu -->
+                        <div id="print-dropdown-menu" class="hidden absolute left-0 mt-2 w-56 glass-card rounded-2xl border border-slate-800 shadow-2xl py-2 z-50">
+                            <button onclick="printLatestTransaction()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors font-semibold">
+                                <i class="fa-solid fa-file-arrow-up text-yellow-500 w-4"></i> چاپکردنی تازەترین مامەڵە
+                            </button>
+                            <button onclick="printAllNewTransactions()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors font-semibold">
+                                <i class="fa-solid fa-list-ul text-emerald-400 w-4"></i> چاپکردنی هەموو مامەڵە نوێیەکان
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -402,34 +404,24 @@
         </div>
     </main>
 
-    <!-- MAIN VIEW 2: MARKET / FOREX CHART -->
+    <!-- MAIN VIEW 2: MARKET -->
     <main id="view-market" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full flex-grow hidden">
         <div class="glass-card rounded-2xl p-4 border border-slate-800 shadow-xl mb-4">
-            
             <div class="mb-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-3 flex items-center gap-3">
                 <i class="fa-solid fa-clock-rotate-left text-yellow-500 text-lg"></i>
                 <div class="text-xs text-slate-300">
-                    <span class="font-bold text-yellow-500">تێبینی بۆرسە:</span> بۆرسەی جیهانی لە ڕۆژانی <span class="text-white font-bold">دووشەممە تا هەینی</span> بە بەردەوامی لە جوڵەدایە. لە ڕۆژانی <span class="text-rose-400 font-bold">شەممە و یەکشەممە</span> بڕی بازاڕ وەستاوە (Closed).
+                    <span class="font-bold text-yellow-500">تێبینی بۆرسە:</span> بۆرسەی جیهانی لە ڕۆژانی <span class="text-white font-bold">دووشەممە تا هەینی</span> بە بەردەوامی لە جوڵەدایە.
                 </div>
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-                <div>
-                    <h2 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line text-yellow-500"></i> چارتی ڕاستەوخۆی بۆرسە (Meta5 View)
-                    </h2>
-                </div>
-
+                <h2 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-yellow-500"></i> چارتی ڕاستەوخۆی بۆرسە (Meta5 View)
+                </h2>
                 <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="changeSymbol('OANDA:XAUUSD')" id="sym-XAUUSD" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-slate-950 transition-all flex items-center gap-1.5 shadow">
-                        <i class="fa-solid fa-coins"></i> ئاڵتون (XAU/USD)
-                    </button>
-                    <button onclick="changeSymbol('OANDA:XAGUSD')" id="sym-XAGUSD" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-cube"></i> زیو (XAG/USD)
-                    </button>
-                    <button onclick="changeSymbol('FX:EURUSD')" id="sym-EURUSD" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
-                        <i class="fa-solid fa-euro-sign"></i> EUR/USD
-                    </button>
+                    <button onclick="changeSymbol('OANDA:XAUUSD')" id="sym-XAUUSD" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-slate-950 transition-all flex items-center gap-1.5 shadow">ئاڵتون (XAU/USD)</button>
+                    <button onclick="changeSymbol('OANDA:XAGUSD')" id="sym-XAGUSD" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5">زیو (XAG/USD)</button>
+                    <button onclick="changeSymbol('FX:EURUSD')" id="sym-EURUSD" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5">EUR/USD</button>
                 </div>
             </div>
 
@@ -522,20 +514,143 @@
         }
         setCurrentDateTime();
 
-        // Toggle Menu Dropdown
-        window.toggleMenuDropdown = () => {
-            const menu = document.getElementById('menu-dropdown');
+        // Print Dropdown Toggle
+        window.togglePrintMenu = () => {
+            const menu = document.getElementById('print-dropdown-menu');
             menu.classList.toggle('hidden');
         };
 
-        // Close dropdown when clicking outside
+        // 1. چاپکردنی تازەترین مامەڵە
+        window.printLatestTransaction = () => {
+            document.getElementById('print-dropdown-menu').classList.add('hidden');
+            const filtered = currentData.filter(i => i.material === currentMaterial);
+            if (filtered.length === 0) {
+                alert("هیچ مامەڵەیەک بوونی نییە بۆ چاپکردن!");
+                return;
+            }
+            // ڕیزکردن بۆ دۆزینەوەی تازەترین مامەڵە
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            const latest = filtered[0];
+
+            let printContent = `
+                <html dir="rtl">
+                <head>
+                    <title>چاپکردنی تازەترین مامەڵە</title>
+                    <style>
+                        body { font-family: 'Noto Sans Arabic', sans-serif; padding: 20px; color: #000; }
+                        h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+                        .card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-top: 20px; }
+                        .row { margin-bottom: 10px; font-size: 14px; }
+                    </style>
+                </head>
+                <body>
+                    <h2>Anas Gold - تازەترین مامەڵە (${document.getElementById('current-material-title').innerText})</h2>
+                    <div class="card">
+                        <div class="row"><strong>بەروار و کات:</strong> ${formatDateTime12H(latest.date)}</div>
+                        <div class="row"><strong>ناو / تێبینی:</strong> ${latest.name}</div>
+                        <div class="row"><strong>جۆری مامەڵە:</strong> ${latest.type === 'buy' ? 'کڕین / هاتوو' : 'فرۆشتن / ڕۆشتوو'}</div>
+                        <div class="row"><strong>کێش / بڕ:</strong> ${latest.weight || latest.price}</div>
+                        <div class="row"><strong>نرخ:</strong> $${latest.price}</div>
+                        ${latest.total ? `<div class="row"><strong>کۆی گشتی:</strong> $${latest.total}</div>` : ''}
+                    </div>
+                </body>
+                </html>
+            `;
+            executePrint(printContent);
+        };
+
+        // 2. چاپکردنی هەموو مامەڵە نوێیەکان (لیستەکە)
+        window.printAllNewTransactions = () => {
+            document.getElementById('print-dropdown-menu').classList.add('hidden');
+            const filtered = currentData.filter(i => i.material === currentMaterial);
+            if (filtered.length === 0) {
+                alert("هیچ مامەڵەیەک بوونی نییە بۆ چاپکردن!");
+                return;
+            }
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            let rowsHTML = '';
+            filtered.forEach(item => {
+                rowsHTML += `
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${formatDateTime12H(item.date)}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${item.name}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${item.type === 'buy' ? 'کڕین' : 'فرۆشتن'}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${item.weight || '-'}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">$${item.price}</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${item.total ? '$' + item.total : '-'}</td>
+                    </tr>
+                `;
+            });
+
+            let printContent = `
+                <html dir="rtl">
+                <head>
+                    <title>ڕاپۆرتی مامەڵەکان</title>
+                    <style>
+                        body { font-family: 'Noto Sans Arabic', sans-serif; padding: 20px; color: #000; }
+                        h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+                        th { background-color: #f2f2f2; }
+                    </style>
+                </head>
+                <body>
+                    <h2>ڕاپۆرتی مامەڵەکانی (${document.getElementById('current-material-title').innerText})</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>بەروار و کات</th>
+                                <th>ناو / تێبینی</th>
+                                <th>جۆر</th>
+                                <th>کێش</th>
+                                <th>نرخ</th>
+                                <th>کۆی گشتی</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHTML}
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+            executePrint(printContent);
+        };
+
+        function executePrint(htmlContent) {
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            if (!printWindow) {
+                alert("تکایە ڕێگری پۆپ-ئەپ (Pop-up blocker) لە وێبگەڕەکەت هەڵبگرە بۆ ئەوەی بتوانیت چاپ بکەیت.");
+                return;
+            }
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+
+        // Close dropdowns when clicking outside
         window.addEventListener('click', (e) => {
             const menu = document.getElementById('menu-dropdown');
             const btn = document.querySelector('[onclick="toggleMenuDropdown()"]');
             if (menu && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
                 menu.classList.add('hidden');
             }
+
+            const printMenu = document.getElementById('print-dropdown-menu');
+            const printBtn = document.querySelector('[onclick="togglePrintMenu()"]');
+            if (printMenu && !printMenu.contains(e.target) && printBtn && !printBtn.contains(e.target)) {
+                printMenu.classList.add('hidden');
+            }
         });
+
+        window.toggleMenuDropdown = () => {
+            document.getElementById('menu-dropdown').classList.toggle('hidden');
+        };
 
         window.switchMainView = (view) => {
             const transView = document.getElementById('view-transactions');
@@ -548,17 +663,14 @@
                 transView.classList.remove('hidden');
                 marketView.classList.add('hidden');
                 materialBar.classList.remove('hidden');
-
                 btnTrans.className = "flex flex-col items-center gap-1 text-yellow-500 transition-all";
                 btnMarket.className = "flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-all";
             } else {
                 transView.classList.add('hidden');
                 marketView.classList.remove('hidden');
                 materialBar.classList.add('hidden');
-
                 btnMarket.className = "flex flex-col items-center gap-1 text-yellow-500 transition-all";
                 btnTrans.className = "flex flex-col items-center gap-1 text-slate-400 hover:text-white transition-all";
-
                 initTradingViewChart(activeSymbol);
             }
         };
@@ -581,15 +693,12 @@
 
         window.changeSymbol = (symbol) => {
             activeSymbol = symbol;
-            const symbols = ['OANDA:XAUUSD', 'OANDA:XAGUSD', 'FX:EURUSD'];
-            symbols.forEach(s => {
+            ['OANDA:XAUUSD', 'OANDA:XAGUSD', 'FX:EURUSD'].forEach(s => {
                 const btn = document.getElementById(`sym-${s.split(':')[1]}`);
                 if (btn) btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center gap-1.5";
             });
-
             const currentBtn = document.getElementById(`sym-${symbol.split(':')[1]}`);
             if (currentBtn) currentBtn.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-slate-950 transition-all flex items-center gap-1.5 shadow";
-
             initTradingViewChart(symbol);
         };
 
@@ -599,7 +708,6 @@
             const emailSec = document.getElementById('section-change-email');
             const deleteSec = document.getElementById('section-delete-account');
 
-            // Hide all first
             nameSec.classList.add('hidden');
             emailSec.classList.add('hidden');
             deleteSec.classList.add('hidden');
@@ -621,16 +729,8 @@
             }
         };
 
-        window.closeProfileModal = () => {
-            document.getElementById('profile-modal').classList.add('hidden');
-        };
-
-        window.handleSwitchAccount = () => {
-            document.getElementById('menu-dropdown').classList.add('hidden');
-            signOut(auth).then(() => {
-                // Will automatically show auth screen via onAuthStateChanged
-            });
-        };
+        window.closeProfileModal = () => document.getElementById('profile-modal').classList.add('hidden');
+        window.handleSwitchAccount = () => { document.getElementById('menu-dropdown').classList.add('hidden'); signOut(auth); };
 
         window.saveProfileName = async () => {
             const newName = document.getElementById('new-display-name').value.trim();
@@ -641,28 +741,18 @@
                     document.getElementById('header-app-title').innerText = newName;
                     alert("ناو بە سەرکەوتوویی گۆڕدرا!");
                     closeProfileModal();
-                } catch(err) {
-                    alert("هەڵە لە گۆڕینی ناو: " + err.message);
-                }
+                } catch(err) { alert("هەڵە: " + err.message); }
             }
         };
 
         window.updateUserEmail = async () => {
             const newEmail = document.getElementById('new-email-input').value.trim();
             if(!newEmail || !currentUser) return;
-
-            if(newEmail === currentUser.email) {
-                alert("ئەمە هەمان ئیمەیڵی پێشووتە!");
-                return;
-            }
-
             try {
                 await verifyBeforeUpdateEmail(currentUser, newEmail);
-                alert("پشکنین نێردرا بۆ ئیمەیڵی نوێکت! تکایە سەردانی ئیمەیڵە نوێیەکەت بکە و لینکی پێداچوونەوە دابگرە بۆ تەواوبوونی گۆڕانکارییەکە.");
+                alert("پشکنین نێردرا بۆ ئیمەیڵی نوێکت!");
                 closeProfileModal();
-            } catch(err) {
-                alert("هەڵە لە گۆڕینی ئیمەیڵ: " + err.message);
-            }
+            } catch(err) { alert("هەڵە: " + err.message); }
         };
 
         window.promptDeleteAccount = () => {
@@ -673,32 +763,19 @@
         window.confirmAndDeleteAccount = async () => {
             if(!currentUser) return;
             const password = document.getElementById('delete-confirm-password').value;
-            if(!password) {
-                alert("تکایە پاسۆردەکەت بنووسە!");
-                return;
-            }
-
+            if(!password) { alert("تکایە پاسۆرد بنووسە!"); return; }
             try {
                 const credential = EmailAuthProvider.credential(currentUser.email, password);
                 await reauthenticateWithCredential(currentUser, credential);
-
-                const userId = currentUser.uid;
-                const transQuery = query(collection(db, "transactions"), where("userId", "==", userId));
+                const transQuery = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
                 const transSnapshot = await getDocs(transQuery);
                 const batch = writeBatch(db);
-                transSnapshot.forEach((docSnap) => {
-                    batch.delete(docSnap.ref);
-                });
+                transSnapshot.forEach((docSnap) => batch.delete(docSnap.ref));
                 await batch.commit();
-
-                const settingsRef = doc(db, "user_settings", userId);
-                try { await deleteDoc(settingsRef); } catch(e) {}
-
+                try { await deleteDoc(doc(db, "user_settings", currentUser.uid)); } catch(e) {}
                 await deleteUser(currentUser);
-                alert("ئەکاونتەکەت و سەرجەم داتاکانت بە سەرکەوتوویی سڕرانەوە.");
-            } catch(err) {
-                alert("هەڵە: پاسۆردەکە هەڵەیە یان کێشەیەک ڕوودا: " + err.message);
-            }
+                alert("ئەکاونت سڕایەوە.");
+            } catch(err) { alert("هەڵە: " + err.message); }
         };
 
         window.openEditStockModal = () => {
@@ -709,13 +786,10 @@
             document.getElementById('input-stock-copper').value = baseStocks.copper || 0;
             document.getElementById('input-stock-usd').value = baseStocks.usd || 0;
             document.getElementById('input-stock-iqd').value = baseStocks.iqd || 0;
-
             document.getElementById('edit-stock-modal').classList.remove('hidden');
         };
 
-        window.closeEditStockModal = () => {
-            document.getElementById('edit-stock-modal').classList.add('hidden');
-        };
+        window.closeEditStockModal = () => document.getElementById('edit-stock-modal').classList.add('hidden');
 
         window.saveCustomStock = async () => {
             if(!currentUser) return;
@@ -728,14 +802,11 @@
                 usd: parseFloat(document.getElementById('input-stock-usd').value) || 0,
                 iqd: parseFloat(document.getElementById('input-stock-iqd').value) || 0
             };
-
             try {
                 await setDoc(doc(db, "user_settings", currentUser.uid), { baseStocks });
                 closeEditStockModal();
                 renderGlobalStock();
-            } catch(err) {
-                alert("کێشەیەک ڕوودا لە پاشەکەوتکردن: " + err.message);
-            }
+            } catch(err) { alert("هەڵە: " + err.message); }
         };
 
         window.toggleAuthMode = () => {
@@ -751,64 +822,48 @@
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-
             try {
                 await setPersistence(auth, browserLocalPersistence);
-
                 if (isSignup) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     await sendEmailVerification(userCredential.user);
-                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین بۆ ئیمەیڵەکەت نێردرا.");
+                    alert("ئەکاونت دروستکرا! لینکێکی پشکنین نێردرا.");
                     await signOut(auth);
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
                     if (!userCredential.user.emailVerified) {
-                        alert("ئەم ئیمەیڵە تا ئێستا پشکنین نەکراوە!");
+                        alert("ئەم ئیمەیڵە پشکنین نەکراوە!");
                         await signOut(auth);
                     }
                 }
-            } catch (err) {
-                alert("هەڵە: " + err.message);
-            }
+            } catch (err) { alert("هەڵە: " + err.message); }
         };
 
         window.handleForgotPassword = async () => {
             const email = document.getElementById('auth-email').value;
-            if (!email) {
-                alert("تکایە ئیمەیڵەکەت بنووسە.");
-                return;
-            }
-
+            if (!email) { alert("تکایە ئیمەیڵ بنووسە."); return; }
             try {
                 await sendPasswordResetEmail(auth, email);
-                alert("لینکی دەستکاریکردنی پاسۆرد بۆ ئیمەیڵەکەت نێردرا!");
-            } catch (err) {
-                alert("هەڵە: " + err.message);
-            }
+                alert("لینکی گۆڕینی پاسۆرد نێردرا!");
+            } catch (err) { alert("هەڵە: " + err.message); }
         };
 
-        window.handleLogout = () => {
-            document.getElementById('menu-dropdown').classList.add('hidden');
-            signOut(auth);
-        };
+        window.handleLogout = () => { document.getElementById('menu-dropdown').classList.add('hidden'); signOut(auth); };
 
         onAuthStateChanged(auth, async (user) => {
             const loadingScreen = document.getElementById('loading-screen');
             if (user && user.emailVerified) {
                 currentUser = user;
                 document.getElementById('auth-screen').classList.add('hidden');
-                
                 const displayName = user.displayName || "Anas Gold";
                 document.getElementById('user-display').innerText = `${displayName} (${user.email})`;
                 document.getElementById('header-app-title').innerText = displayName;
-
                 try {
                     const docSnap = await getDoc(doc(db, "user_settings", currentUser.uid));
                     if(docSnap.exists() && docSnap.data().baseStocks) {
                         baseStocks = docSnap.data().baseStocks;
                     }
-                } catch(e) { console.log(e); }
-
+                } catch(e) {}
                 listenToData();
             } else {
                 currentUser = null;
@@ -820,22 +875,18 @@
         window.handleAddTransaction = async (e) => {
             e.preventDefault();
             if (!currentUser) return;
-
             const type = document.getElementById('trans-type').value;
             const name = document.getElementById('trans-name').value;
             const isCurrency = currentMaterial === 'usd' || currentMaterial === 'iqd';
-            
             const weightVal = document.getElementById('trans-weight').value;
             const weight = weightVal ? parseFloat(weightVal) : 0;
             const price = parseFloat(document.getElementById('trans-price').value);
-            
             let date = document.getElementById('trans-date').value;
             if (!date) {
                 const now = new Date();
                 now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                 date = now.toISOString().slice(0, 16);
             }
-
             try {
                 await addDoc(collection(db, "transactions"), {
                     userId: currentUser.uid,
@@ -848,23 +899,15 @@
                     date,
                     createdAt: new Date()
                 });
-
                 document.getElementById('trans-name').value = '';
                 document.getElementById('trans-weight').value = '';
                 document.getElementById('trans-price').value = '';
-                
                 setCurrentDateTime();
-            } catch (err) {
-                alert("نەتوانرا تۆماربکرێت: " + err.message);
-            }
+            } catch (err) { alert("نەتوانرا تۆماربکرێت: " + err.message); }
         };
 
         window.deleteTransaction = async (id) => {
-            try {
-                await deleteDoc(doc(db, "transactions", id));
-            } catch (err) {
-                alert("نەتوانرا بسڕدرێتەوە: " + err.message);
-            }
+            try { await deleteDoc(doc(db, "transactions", id)); } catch (err) { alert("هەڵە: " + err.message); }
         };
 
         window.switchTab = (material) => {
@@ -879,28 +922,25 @@
             const weightContainer = document.getElementById('container-weight');
             const weightInput = document.getElementById('trans-weight');
             const statsContainer = document.getElementById('stats-container');
-
             const isCoin = material === 'gold_coin';
             const isCurrency = material === 'usd' || material === 'iqd';
 
             if(isCurrency) {
                 weightContainer.classList.add('hidden');
                 weightInput.removeAttribute('required');
-                
                 document.getElementById('stat-4-container').classList.add('hidden');
                 statsContainer.className = "grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-5";
             } else {
                 weightContainer.classList.remove('hidden');
                 weightInput.setAttribute('required', 'true');
-                
                 document.getElementById('stat-4-container').classList.remove('hidden');
                 statsContainer.className = "grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5";
             }
 
-            if(material === 'usd' || material === 'iqd') {
+            if(isCurrency) {
                 const curSymbol = material === 'usd' ? '$' : 'د.ع';
-                document.getElementById('opt-buy').innerText = "دۆلاری/دیناری هاتوو";
-                document.getElementById('opt-sell').innerText = "دۆلاری/دیناری ڕۆشتوو";
+                document.getElementById('opt-buy').innerText = "هاتوو";
+                document.getElementById('opt-sell').innerText = "ڕۆشتوو";
                 document.getElementById('label-price').innerText = `بڕی پارە (${curSymbol})`;
                 document.getElementById('th-price').innerText = `بڕ (${curSymbol})`;
                 document.getElementById('th-weight').classList.add('hidden');
@@ -932,32 +972,25 @@
 
             if (material === 'gold') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-yellow-500 text-slate-950 shadow-md";
-                titleElement.innerText = "ئاڵتون";
-                titleElement.className = "gold-text font-black";
+                titleElement.innerText = "ئاڵتون"; titleElement.className = "gold-text font-black";
             } else if (material === 'silver_palm') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-slate-300 text-slate-950 shadow-md";
-                titleElement.innerText = "زیوی پاڵم";
-                titleElement.className = "silver-text font-black";
+                titleElement.innerText = "زیوی پاڵم"; titleElement.className = "silver-text font-black";
             } else if (material === 'silver_marmar') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-slate-100 text-slate-950 shadow-md";
-                titleElement.innerText = "زیوی مەڕمەڕ";
-                titleElement.className = "silver-text font-black";
+                titleElement.innerText = "زیوی مەڕمەڕ"; titleElement.className = "silver-text font-black";
             } else if (material === 'gold_coin') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md";
-                titleElement.innerText = "لیرەی ئاڵتون";
-                titleElement.className = "coin-text font-black";
+                titleElement.innerText = "لیرەی ئاڵتون"; titleElement.className = "coin-text font-black";
             } else if (material === 'copper') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-amber-700 text-white shadow-md";
-                titleElement.innerText = "مس";
-                titleElement.className = "copper-text font-black";
+                titleElement.innerText = "مس"; titleElement.className = "copper-text font-black";
             } else if (material === 'usd') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-emerald-500 text-slate-950 shadow-md";
-                titleElement.innerText = "دۆلار";
-                titleElement.className = "usd-text font-black";
+                titleElement.innerText = "دۆلار"; titleElement.className = "usd-text font-black";
             } else if (material === 'iqd') {
                 activeBtn.className = "whitespace-nowrap px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 bg-blue-600 text-white shadow-md";
-                titleElement.innerText = "دینار";
-                titleElement.className = "iqd-text font-black";
+                titleElement.innerText = "دینار"; titleElement.className = "iqd-text font-black";
             }
 
             renderData();
@@ -966,7 +999,6 @@
         function listenToData() {
             if (!currentUser) return;
             const q = query(collection(db, "transactions"), where("userId", "==", currentUser.uid));
-
             onSnapshot(q, (snapshot) => {
                 currentData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderGlobalStock();
@@ -977,19 +1009,12 @@
         function updateDisplayValue(elementId, value, defaultClass) {
             const el = document.getElementById(elementId);
             if (!el) return;
-            
             el.innerText = value.toLocaleString('en-US');
-            
-            if (value < 0) {
-                el.className = "text-rose-500 font-bold";
-            } else {
-                el.className = defaultClass;
-            }
+            el.className = value < 0 ? "text-rose-500 font-bold" : defaultClass;
         }
 
         function renderGlobalStock() {
             const stocks = { ...baseStocks };
-            
             currentData.forEach(item => {
                 const mat = item.material;
                 if (stocks.hasOwnProperty(mat)) {
@@ -1019,7 +1044,6 @@
 
             tableBody.innerHTML = '';
             let stat1 = 0, stat2 = 0, stat3 = 0, stat4 = 0;
-
             const isCurrency = currentMaterial === 'usd' || currentMaterial === 'iqd';
 
             if (filtered.length === 0) {
@@ -1027,22 +1051,15 @@
             } else {
                 emptyState.classList.add('hidden');
                 filtered.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(item => {
-                    
                     if (isCurrency) {
                         if (item.type === 'buy') stat1 += item.price;
                         else stat2 += item.price;
                     } else {
-                        if (item.type === 'buy') {
-                            stat1 += item.weight;
-                            stat3 += item.total;
-                        } else {
-                            stat2 += item.weight;
-                            stat4 += item.total;
-                        }
+                        if (item.type === 'buy') { stat1 += item.weight; stat3 += item.total; }
+                        else { stat2 += item.weight; stat4 += item.total; }
                     }
 
                     const formattedDate = formatDateTime12H(item.date);
-
                     const row = document.createElement('tr');
                     row.className = "hover:bg-slate-800/40 transition-colors";
                     
@@ -1094,10 +1111,8 @@
             } else {
                 document.getElementById('stat-1-val').innerText = stat1.toLocaleString('en-US');
                 document.getElementById('stat-2-val').innerText = stat2.toLocaleString('en-US');
-                
                 document.getElementById('stat-3-val').innerText = stat3.toLocaleString('en-US');
                 document.getElementById('stat-3-val').className = "text-emerald-400";
-                
                 document.getElementById('stat-4-val').innerText = stat4.toLocaleString('en-US');
             }
         }

@@ -29,9 +29,22 @@
         .glass-card { background: rgba(20, 27, 45, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Print Frame Styles */
+        #print-iframe {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border: 0;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between pb-20 sm:pb-16">
+
+    <!-- Hidden Iframe for Direct Printing without Pop-up Block -->
+    <iframe id="print-iframe"></iframe>
 
     <!-- Loading Screen -->
     <div id="loading-screen" class="fixed inset-0 bg-slate-950 z-[120] flex flex-col items-center justify-center">
@@ -106,7 +119,7 @@
                             <i class="fa-solid fa-envelope-open-text text-blue-400 w-4"></i> گۆڕینی ئیمەیڵی هەژمار
                         </button>
                         <button onclick="handleSwitchAccount()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors">
-                            <i class="fa-solid fa-right-left text-emerald-400 w-4"></i> Switch Account
+                            <i class="fa-solid fa-right-left text-emerald-400 w-4"></i> گۆڕینی ئەکاونت (Switch)
                         </button>
                         <div class="h-px bg-slate-800 my-1"></div>
                         <button onclick="openProfileModalSection('delete')" class="w-full text-right px-4 py-2.5 text-xs text-rose-400 hover:bg-rose-950/30 flex items-center gap-2.5 transition-colors">
@@ -360,7 +373,7 @@
                         تۆماری مامەڵەکانی <span id="current-material-title" class="gold-text font-black">ئاڵتون</span>
                     </h2>
                     
-                    <!-- Print Dropdown Container (Updated) -->
+                    <!-- Print Dropdown Container -->
                     <div class="relative">
                         <button onclick="togglePrintMenu()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs px-3.5 py-2 rounded-xl border border-slate-800 transition-colors flex items-center gap-2 shadow font-bold">
                             <i class="fa-solid fa-print text-yellow-500"></i> چاپکردنی ڕاپۆرت <i class="fa-solid fa-chevron-down text-[10px]"></i>
@@ -371,8 +384,8 @@
                             <button onclick="printLatestTransaction()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors font-semibold">
                                 <i class="fa-solid fa-file-arrow-up text-yellow-500 w-4"></i> چاپکردنی تازەترین مامەڵە
                             </button>
-                            <button onclick="printAllNewTransactions()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors font-semibold">
-                                <i class="fa-solid fa-list-ul text-emerald-400 w-4"></i> چاپکردنی هەموو مامەڵە نوێیەکان
+                            <button onclick="printAllTransactions()" class="w-full text-right px-4 py-2.5 text-xs text-slate-200 hover:bg-slate-800/60 flex items-center gap-2.5 transition-colors font-semibold">
+                                <i class="fa-solid fa-list-ul text-emerald-400 w-4"></i> چاپکردنی هەموو مامەڵەکان
                             </button>
                         </div>
                     </div>
@@ -520,7 +533,7 @@
             menu.classList.toggle('hidden');
         };
 
-        // 1. چاپکردنی تازەترین مامەڵە
+        // 1. چاپکردنی تازەترین مامەڵە (بێ کێشە بە Iframe)
         window.printLatestTransaction = () => {
             document.getElementById('print-dropdown-menu').classList.add('hidden');
             const filtered = currentData.filter(i => i.material === currentMaterial);
@@ -528,7 +541,6 @@
                 alert("هیچ مامەڵەیەک بوونی نییە بۆ چاپکردن!");
                 return;
             }
-            // ڕیزکردن بۆ دۆزینەوەی تازەترین مامەڵە
             filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
             const latest = filtered[0];
 
@@ -556,11 +568,11 @@
                 </body>
                 </html>
             `;
-            executePrint(printContent);
+            executeDirectPrint(printContent);
         };
 
-        // 2. چاپکردنی هەموو مامەڵە نوێیەکان (لیستەکە)
-        window.printAllNewTransactions = () => {
+        // 2. چاپکردنی هەموو مامەڵەکان (بێ کێشە بە Iframe)
+        window.printAllTransactions = () => {
             document.getElementById('print-dropdown-menu').classList.add('hidden');
             const filtered = currentData.filter(i => i.material === currentMaterial);
             if (filtered.length === 0) {
@@ -586,7 +598,7 @@
             let printContent = `
                 <html dir="rtl">
                 <head>
-                    <title>ڕاپۆرتی مامەڵەکان</title>
+                    <title>ڕاپۆرتی گشتی مامەڵەکان</title>
                     <style>
                         body { font-family: 'Noto Sans Arabic', sans-serif; padding: 20px; color: #000; }
                         h2 { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
@@ -596,7 +608,7 @@
                     </style>
                 </head>
                 <body>
-                    <h2>ڕاپۆرتی مامەڵەکانی (${document.getElementById('current-material-title').innerText})</h2>
+                    <h2>ڕاپۆرتی هەموو مامەڵەکانی (${document.getElementById('current-material-title').innerText})</h2>
                     <table>
                         <thead>
                             <tr>
@@ -615,22 +627,21 @@
                 </body>
                 </html>
             `;
-            executePrint(printContent);
+            executeDirectPrint(printContent);
         };
 
-        function executePrint(htmlContent) {
-            const printWindow = window.open('', '_blank', 'width=800,height=600');
-            if (!printWindow) {
-                alert("تکایە ڕێگری پۆپ-ئەپ (Pop-up blocker) لە وێبگەڕەکەت هەڵبگرە بۆ ئەوەی بتوانیت چاپ بکەیت.");
-                return;
-            }
-            printWindow.document.write(htmlContent);
-            printWindow.document.close();
-            printWindow.focus();
+        // فەمەنشنی چاپکردنی ڕاستەوخۆ بەبێ ئەوەی پەنجەرەی نوێ بکاتەوە و ڕێگری لێبکرێت
+        function executeDirectPrint(htmlContent) {
+            const iframe = document.getElementById('print-iframe');
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(htmlContent);
+            doc.close();
+            
             setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+            }, 300);
         }
 
         // Close dropdowns when clicking outside

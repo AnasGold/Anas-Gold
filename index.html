@@ -11,7 +11,6 @@
     <meta name="apple-mobile-web-app-title" content="Anas Gold">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2697/2697432.png">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2697/2697432.png">
-    <link rel="manifest" href="manifest.json">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
@@ -568,7 +567,7 @@
             if(newName && currentUser) {
                 try {
                     await updateProfile(currentUser, { displayName: newName });
-                    document.getElementById('user-display').innerText = newName;
+                    document.getElementById('user-display').innerText = `${newName} (${currentUser.email})`;
                     alert("ناو بە سەرکەوتوویی گۆڕدرا!");
                     closeProfileModal();
                 } catch(err) {
@@ -577,7 +576,6 @@
             }
         };
 
-        // 1. گۆڕینی ئیمەیڵ بە ڤێریفای
         window.updateUserEmail = async () => {
             const newEmail = document.getElementById('new-email-input').value.trim();
             if(!newEmail || !currentUser) return;
@@ -588,7 +586,6 @@
             }
 
             try {
-                // بەکارهێنانی verifyBeforeUpdateEmail بۆ دڵنیابوونەوەی ئیمەیڵی نوێ
                 await verifyBeforeUpdateEmail(currentUser, newEmail);
                 alert("پشکنین نێردرا بۆ ئیمەیڵی نوێکت! تکایە سەردانی ئیمەیڵە نوێیەکەت بکە و لینکی پێداچوونەوە دابگرە بۆ تەواوبوونی گۆڕانکارییەکە.");
                 closeProfileModal();
@@ -597,7 +594,6 @@
             }
         };
 
-        // 2. سڕینەوەی ئەکاونت و داتاکان لە فایربەیس پێکەوە
         window.deleteUserAccount = async () => {
             if(!currentUser) return;
 
@@ -607,7 +603,6 @@
             const userId = currentUser.uid;
 
             try {
-                // الف) سڕینەوەی هەموو مامەڵەکانی بەکارهێنەر لە Firestore
                 const transQuery = query(collection(db, "transactions"), where("userId", "==", userId));
                 const transSnapshot = await getDocs(transQuery);
                 const batch = writeBatch(db);
@@ -616,12 +611,9 @@
                 });
                 await batch.commit();
 
-                // ب) سڕینەوەی سێتینگی بەکارهێنەر
                 const settingsRef = doc(db, "user_settings", userId);
-                // هەوڵی سڕینەوەی دەدەین ئەگەر هەیبێت
                 try { await deleteDoc(settingsRef); } catch(e) {}
 
-                // ج) سڕینەوەی خودی ئەکاونتەکە لە Firebase Auth
                 await deleteUser(currentUser);
                 alert("ئەکاونتەکەت و سەرجەم داتاکانت بە سەرکەوتوویی لە فایربەیس سڕرانەوە.");
             } catch(err) {
@@ -1024,11 +1016,6 @@
                 
                 document.getElementById('stat-4-val').innerText = stat4.toLocaleString('en-US');
             }
-        }
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
         }
     </script>
 </body>

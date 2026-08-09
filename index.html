@@ -88,7 +88,8 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-lg font-black tracking-wide gold-text leading-tight">Anas Gold</h1>
+                        <!-- Header Title (Changes instantly when account name changes) -->
+                        <h1 id="header-app-title" class="text-lg font-black tracking-wide gold-text leading-tight">Anas Gold</h1>
                         <p class="text-[11px] font-semibold text-slate-300 truncate max-w-[150px] sm:max-w-xs" id="user-display">بەکارهێنەر</p>
                     </div>
                 </div>
@@ -162,7 +163,7 @@
             <!-- 1. Change Name -->
             <div id="section-change-name" class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
                 <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ناوی نمایشکراو</label>
-                <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
+                <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە (بۆ نموونە: ANASSS)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
                 <button onclick="saveProfileName()" class="w-full gold-gradient text-slate-950 font-bold py-2 rounded-xl text-xs shadow">پاشەکەوتکردنی ناو</button>
             </div>
 
@@ -379,7 +380,7 @@
                     <table class="w-full text-right text-xs text-slate-300">
                         <thead class="bg-slate-900/90 text-[11px] uppercase text-slate-400 border-b border-slate-800">
                             <tr>
-                                <th class="p-2.5">بەروار و کات (AM/PM)</th>
+                                <th class="p-2.5">بەروار و کات (12H)</th>
                                 <th class="p-2.5">ناو / تێبینی</th>
                                 <th class="p-2.5">جۆر</th>
                                 <th class="p-2.5" id="th-weight">کێش (کگم)</th>
@@ -637,6 +638,7 @@
                 try {
                     await updateProfile(currentUser, { displayName: newName });
                     document.getElementById('user-display').innerText = `${newName} (${currentUser.email})`;
+                    document.getElementById('header-app-title').innerText = newName;
                     alert("ناو بە سەرکەوتوویی گۆڕدرا!");
                     closeProfileModal();
                 } catch(err) {
@@ -695,7 +697,7 @@
                 await deleteUser(currentUser);
                 alert("ئەکاونتەکەت و سەرجەم داتاکانت بە سەرکەوتوویی سڕرانەوە.");
             } catch(err) {
-                alert("هەڵە: پاسۆردەکە هەڵەیە یان کێشەیەک ڕوویدا: " + err.message);
+                alert("هەڵە: پاسۆردەکە هەڵەیە یان کێشەیەک ڕوودا: " + err.message);
             }
         };
 
@@ -795,7 +797,10 @@
             if (user && user.emailVerified) {
                 currentUser = user;
                 document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('user-display').innerText = user.displayName ? `${user.displayName} (${user.email})` : user.email;
+                
+                const displayName = user.displayName || "Anas Gold";
+                document.getElementById('user-display').innerText = `${displayName} (${user.email})`;
+                document.getElementById('header-app-title').innerText = displayName;
 
                 try {
                     const docSnap = await getDoc(doc(db, "user_settings", currentUser.uid));

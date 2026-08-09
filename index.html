@@ -533,7 +533,7 @@
             menu.classList.toggle('hidden');
         };
 
-        // 1. چاپکردنی تازەترین مامەڵە (بێ کێشە بە Iframe)
+        // 1. چاپکردنی تازەترین مامەڵە
         window.printLatestTransaction = () => {
             document.getElementById('print-dropdown-menu').classList.add('hidden');
             const filtered = currentData.filter(i => i.material === currentMaterial);
@@ -571,7 +571,7 @@
             executeDirectPrint(printContent);
         };
 
-        // 2. چاپکردنی هەموو مامەڵەکان (بێ کێشە بە Iframe)
+        // 2. چاپکردنی هەموو مامەڵەکان
         window.printAllTransactions = () => {
             document.getElementById('print-dropdown-menu').classList.add('hidden');
             const filtered = currentData.filter(i => i.material === currentMaterial);
@@ -630,7 +630,6 @@
             executeDirectPrint(printContent);
         };
 
-        // فەمەنشنی چاپکردنی ڕاستەوخۆ بەبێ ئەوەی پەنجەرەی نوێ بکاتەوە و ڕێگری لێبکرێت
         function executeDirectPrint(htmlContent) {
             const iframe = document.getElementById('print-iframe');
             const doc = iframe.contentWindow.document;
@@ -644,7 +643,6 @@
             }, 300);
         }
 
-        // Close dropdowns when clicking outside
         window.addEventListener('click', (e) => {
             const menu = document.getElementById('menu-dropdown');
             const btn = document.querySelector('[onclick="toggleMenuDropdown()"]');

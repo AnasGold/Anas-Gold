@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="flex items-center gap-1.5">
-                    <button onclick="openProfileModal()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center" title="دەستکاریکردنی ناو">
+                    <button onclick="openProfileModal()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-yellow-500 rounded-xl transition-colors flex items-center justify-center" title="دەستکاریکردنی پڕۆفایل و ئیمەیڵ">
                         <i class="fa-solid fa-pen-to-square text-xs"></i>
                     </button>
                     <button onclick="handleLogout()" class="w-8 h-8 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl transition-colors flex items-center justify-center" title="چوونەدەرەوە">
@@ -132,20 +132,44 @@
     </header>
 
     <!-- Modals -->
+    <!-- Profile & Account Settings Modal -->
     <div id="profile-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="glass-card max-w-sm w-full p-6 rounded-2xl border border-slate-800 shadow-2xl">
-            <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-user-gear text-yellow-500"></i> دەستکاریکردنی ناوی پڕۆفایل
-            </h3>
-            <p class="text-xs text-slate-400 mb-4">ناوی نوێ بنووسە بۆ ئەوەی لە سەرەوە پیشان بدرێت:</p>
-            <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-4 focus:outline-none focus:border-yellow-500">
-            <div class="flex gap-2">
-                <button onclick="saveProfileName()" class="flex-1 gold-gradient text-slate-950 font-bold py-2 rounded-xl text-xs">پاشەکەوتکردن</button>
-                <button onclick="closeProfileModal()" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl text-xs">پاشگەزبوونەوە</button>
+        <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-user-gear text-yellow-500"></i> ڕێکخستنەکانی ئەکاونت و پڕۆفایل
+                </h3>
+                <button onclick="closeProfileModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- 1. Change Name -->
+            <div class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
+                <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ناوی نمایشکراو</label>
+                <input type="text" id="new-display-name" placeholder="ناوەکەت بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
+                <button onclick="saveProfileName()" class="w-full gold-gradient text-slate-950 font-bold py-2 rounded-xl text-xs shadow">پاشەکەوتکردنی ناو</button>
+            </div>
+
+            <!-- 2. Change Email -->
+            <div class="mb-5 bg-slate-900/60 p-4 rounded-xl border border-slate-800/80">
+                <label class="block text-xs font-bold text-slate-300 mb-1.5">گۆڕینی ئیمەیڵ (پێویستی بە ڤێریفایە)</label>
+                <input type="email" id="new-email-input" placeholder="ئیمەیڵی نوێ بنووسە" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white mb-3 focus:outline-none focus:border-yellow-500">
+                <button onclick="updateUserEmail()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs shadow transition-colors">ناردنی پشکنین بۆ ئیمەیڵی نوێ</button>
+            </div>
+
+            <!-- 3. Delete Account -->
+            <div class="bg-rose-950/30 p-4 rounded-xl border border-rose-900/40">
+                <h4 class="text-xs font-bold text-rose-400 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-triangle-exclamation"></i> ناوچەی مەترسی (سڕینەوەی ئەکاونت)
+                </h4>
+                <p class="text-[11px] text-slate-400 mb-3">ئاگاداربە! بە سڕینەوەی ئەکاونتەکەت، هەموو داتاکانت، مامەڵەکانت و سێتینگەکەت لە فایربەیس بە یەکجاری دەسڕێنەوە.</p>
+                <button onclick="deleteUserAccount()" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl text-xs shadow transition-colors flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-trash-can"></i> سڕینەوەی یەکجارەکی ئەکاونت و داتاکان
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- Edit Stock Modal -->
     <div id="edit-stock-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-md w-full p-6 rounded-2xl border border-slate-800 shadow-2xl">
             <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
@@ -281,7 +305,6 @@
 
         <!-- ③ Stats Bar -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5" id="stats-container">
-            <!-- Stat 1 -->
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-emerald-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-1-title">کۆی کێشی کڕین</span>
@@ -290,7 +313,6 @@
                 <h3 class="text-lg font-bold text-white"><span id="stat-1-val">0</span> <span class="text-xs text-slate-400" id="stat-1-unit">کگم</span></h3>
             </div>
 
-            <!-- Stat 2 -->
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-rose-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-2-title">کۆی کێشی فرۆشتن</span>
@@ -299,7 +321,6 @@
                 <h3 class="text-lg font-bold text-white"><span id="stat-2-val">0</span> <span class="text-xs text-slate-400" id="stat-2-unit">کگم</span></h3>
             </div>
 
-            <!-- Stat 3 -->
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-blue-500 flex flex-col justify-between">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-3-title">کۆی بڕی کڕین ($)</span>
@@ -308,7 +329,6 @@
                 <h3 class="text-lg font-bold"><span id="stat-3-prefix" class="text-emerald-400">$</span><span id="stat-3-val">0</span></h3>
             </div>
 
-            <!-- Stat 4 -->
             <div class="glass-card rounded-2xl p-3.5 border-r-4 border-amber-500 flex flex-col justify-between" id="stat-4-container">
                 <div class="flex justify-between items-start mb-1">
                     <span class="text-slate-400 text-[11px] font-semibold" id="card-stat-4-title">کۆی بڕی فرۆشتن بە $</span>
@@ -421,10 +441,12 @@
             sendEmailVerification,
             sendPasswordResetEmail,
             updateProfile,
+            verifyBeforeUpdateEmail,
+            deleteUser,
             setPersistence,
             browserLocalPersistence 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, where, setDoc, getDoc, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDWaA1WE2hL4lCTsu4EHQRg1_rGcFKny-M",
@@ -447,14 +469,13 @@
         let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
         let activeSymbol = 'OANDA:XAUUSD';
 
-        // Clean & Compact 12-Hour AM/PM Time Format (e.g., 9/8/2026 - 12:41 AM)
         function formatDateTime12H(isoDateString) {
             if (!isoDateString) return '';
             const date = new Date(isoDateString);
             if (isNaN(date.getTime())) return isoDateString;
 
             const year = date.getFullYear();
-            const month = date.getMonth() + 1; // without leading zero for clean look
+            const month = date.getMonth() + 1;
             const day = date.getDate();
 
             let hours = date.getHours();
@@ -533,6 +554,7 @@
         window.openProfileModal = () => {
             if(currentUser) {
                 document.getElementById('new-display-name').value = currentUser.displayName || '';
+                document.getElementById('new-email-input').value = currentUser.email || '';
                 document.getElementById('profile-modal').classList.remove('hidden');
             }
         };
@@ -547,10 +569,63 @@
                 try {
                     await updateProfile(currentUser, { displayName: newName });
                     document.getElementById('user-display').innerText = newName;
+                    alert("ناو بە سەرکەوتوویی گۆڕدرا!");
                     closeProfileModal();
                 } catch(err) {
                     alert("هەڵە لە گۆڕینی ناو: " + err.message);
                 }
+            }
+        };
+
+        // 1. گۆڕینی ئیمەیڵ بە ڤێریفای
+        window.updateUserEmail = async () => {
+            const newEmail = document.getElementById('new-email-input').value.trim();
+            if(!newEmail || !currentUser) return;
+
+            if(newEmail === currentUser.email) {
+                alert("ئەمە هەمان ئیمەیڵی پێشووتە!");
+                return;
+            }
+
+            try {
+                // بەکارهێنانی verifyBeforeUpdateEmail بۆ دڵنیابوونەوەی ئیمەیڵی نوێ
+                await verifyBeforeUpdateEmail(currentUser, newEmail);
+                alert("پشکنین نێردرا بۆ ئیمەیڵی نوێکت! تکایە سەردانی ئیمەیڵە نوێیەکەت بکە و لینکی پێداچوونەوە دابگرە بۆ تەواوبوونی گۆڕانکارییەکە.");
+                closeProfileModal();
+            } catch(err) {
+                alert("هەڵە لە گۆڕینی ئیمەیڵ (ڕەنگە پێویست بکات دووبارە بچیتە ژوورەوە): " + err.message);
+            }
+        };
+
+        // 2. سڕینەوەی ئەکاونت و داتاکان لە فایربەیس پێکەوە
+        window.deleteUserAccount = async () => {
+            if(!currentUser) return;
+
+            const confirmDelete = confirm("ئایا دڵنیای لە سڕینەوەی یەکجارەکی ئەکاونتەکەت؟ هەموو مامەڵە و زانیارییەکانت دەسڕێنەوە و ئەم کردارە پاشگەزبوونەوەی نییە!");
+            if(!confirmDelete) return;
+
+            const userId = currentUser.uid;
+
+            try {
+                // الف) سڕینەوەی هەموو مامەڵەکانی بەکارهێنەر لە Firestore
+                const transQuery = query(collection(db, "transactions"), where("userId", "==", userId));
+                const transSnapshot = await getDocs(transQuery);
+                const batch = writeBatch(db);
+                transSnapshot.forEach((docSnap) => {
+                    batch.delete(docSnap.ref);
+                });
+                await batch.commit();
+
+                // ب) سڕینەوەی سێتینگی بەکارهێنەر
+                const settingsRef = doc(db, "user_settings", userId);
+                // هەوڵی سڕینەوەی دەدەین ئەگەر هەیبێت
+                try { await deleteDoc(settingsRef); } catch(e) {}
+
+                // ج) سڕینەوەی خودی ئەکاونتەکە لە Firebase Auth
+                await deleteUser(currentUser);
+                alert("ئەکاونتەکەت و سەرجەم داتاکانت بە سەرکەوتوویی لە فایربەیس سڕرانەوە.");
+            } catch(err) {
+                alert("هەڵە لە سڕینەوەی ئەکاونت (بۆ پاراستنی ئەمنی، ڕەنگە پێویست بکات دووبارە بچیتە ژوورەوە و پاشان بیسڕیتەوە): " + err.message);
             }
         };
 
@@ -649,7 +724,7 @@
             if (user && user.emailVerified) {
                 currentUser = user;
                 document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('user-display').innerText = user.displayName || user.email;
+                document.getElementById('user-display').innerText = user.displayName ? `${user.displayName} (${user.email})` : user.email;
 
                 try {
                     const docSnap = await getDoc(doc(db, "user_settings", currentUser.uid));
@@ -677,7 +752,13 @@
             const weightVal = document.getElementById('trans-weight').value;
             const weight = weightVal ? parseFloat(weightVal) : 0;
             const price = parseFloat(document.getElementById('trans-price').value);
-            const date = document.getElementById('trans-date').value;
+            
+            let date = document.getElementById('trans-date').value;
+            if (!date) {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                date = now.toISOString().slice(0, 16);
+            }
 
             try {
                 await addDoc(collection(db, "transactions"), {
@@ -695,6 +776,7 @@
                 document.getElementById('trans-name').value = '';
                 document.getElementById('trans-weight').value = '';
                 document.getElementById('trans-price').value = '';
+                
                 setCurrentDateTime();
             } catch (err) {
                 alert("نەتوانرا تۆماربکرێت: " + err.message);
@@ -883,7 +965,6 @@
                         }
                     }
 
-                    // Format Date cleanly
                     const formattedDate = formatDateTime12H(item.date);
 
                     const row = document.createElement('tr');

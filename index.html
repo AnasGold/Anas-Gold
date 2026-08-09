@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
@@ -157,8 +156,9 @@
         </div>
     </header>
 
+    <!-- TRASH MODAL (چاککراو بە گشت زانیارییەکان و سڕینەوەی یەکجارەکی) -->
     <div id="trash-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="glass-card max-w-2xl w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] flex flex-col">
+        <div class="glass-card max-w-4xl w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-trash-arrow-up text-amber-500"></i> مامەڵە سڕاوەکان (ماوەی مانەوە: ٣٠ ڕۆژ)
@@ -169,10 +169,15 @@
                 <table class="w-full text-right text-xs text-slate-300">
                     <thead class="bg-slate-900/90 text-[11px] uppercase text-slate-400 border-b border-slate-800">
                         <tr>
-                            <th class="p-2.5">بەرواری سڕینەوە</th>
+                            <th class="p-2.5">کایە / جۆر</th>
                             <th class="p-2.5">ناو / تێبینی</th>
-                            <th class="p-2.5">بڕ / کێش</th>
-                            <th class="p-2.5">کردار</th>
+                            <th class="p-2.5">کرداری مامەڵە</th>
+                            <th class="p-2.5">کێش / بڕ</th>
+                            <th class="p-2.5">نرخ</th>
+                            <th class="p-2.5">کۆی گشتی</th>
+                            <th class="p-2.5">بەرواری مامەڵە</th>
+                            <th class="p-2.5">کاتی سڕینەوە</th>
+                            <th class="p-2.5 text-center">کردار</th>
                         </tr>
                     </thead>
                     <tbody id="trash-table-body" class="divide-y divide-slate-800/60"></tbody>
@@ -517,6 +522,20 @@
         let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
         let activeSymbol = 'OANDA:XAUUSD';
 
+        // یاریدەدەری وەرگێڕانی ناوی کایەکان
+        function getMaterialName(matKey) {
+            const names = {
+                'gold': 'ئاڵتون',
+                'silver_palm': 'زیوی پاڵم',
+                'silver_marmar': 'زیوی مەڕمەڕ',
+                'gold_coin': 'لیرەی ئاڵتون',
+                'copper': 'مس',
+                'usd': 'دۆلار',
+                'iqd': 'دینار'
+            };
+            return names[matKey] || matKey;
+        }
+
         function formatDateTime12H(isoDateString) {
             if (!isoDateString) return '';
             const date = new Date(isoDateString);
@@ -794,7 +813,7 @@
                 const batch = writeBatch(db);
                 transSnapshot.forEach((docSnap) => batch.delete(docSnap.ref));
                 await batch.commit();
-                try { await deleteDoc(doc(db, "user_settings", currentUser.uid)); } catch(e) {}
+                try { await deleteDoc(doc(doc(db, "user_settings", currentUser.uid))); } catch(e) {}
                 await deleteUser(currentUser);
                 alert("ئەکاونت سڕایەوە.");
             } catch(err) { alert("هەڵە: " + err.message); }
@@ -808,6 +827,7 @@
 
         window.closeTrashModal = () => document.getElementById('trash-modal').classList.add('hidden');
 
+        // خستنەڕووی زانیارییەکان بەتەواوی لە بەشی سڕاوەکاندا
         async function loadTrashData() {
             if (!currentUser) return;
             const trashBody = document.getElementById('trash-table-body');
@@ -817,6 +837,11 @@
                 const q = query(collection(db, "trash_transactions"), where("userId", "==", currentUser.uid));
                 const snapshot = await getDocs(q);
                 const now = new Date();
+
+                if (snapshot.empty) {
+                    trashBody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-slate-500">هیچ مامەڵەیەکی سڕاوە نەدۆزرایەوە.</td></tr>`;
+                    return;
+                }
 
                 snapshot.forEach(async (docSnap) => {
                     const data = docSnap.data();
@@ -828,14 +853,46 @@
                         await deleteDoc(doc(db, "trash_transactions", docSnap.id));
                     } else {
                         const remainingDays = 30 - diffDays;
+                        const matName = getMaterialName(data.material);
+                        const isCurrency = data.material === 'usd' || data.material === 'iqd';
+                        const isCoin = data.material === 'gold_coin';
+                        
+                        let typeText = '';
+                        let typeClass = '';
+                        if (isCurrency) {
+                            typeText = data.type === 'buy' ? 'هاتوو' : 'ڕۆشتوو';
+                            typeClass = data.type === 'buy' ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10';
+                        } else {
+                            typeText = data.type === 'buy' ? 'کڕین' : 'فرۆشتن';
+                            typeClass = data.type === 'buy' ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10';
+                        }
+
+                        let weightStr = '-';
+                        if (!isCurrency) {
+                            weightStr = `${data.weight || 0} ${isCoin ? 'دانە' : 'کگم'}`;
+                        }
+
+                        let priceStr = isCurrency ? `${data.price?.toLocaleString('en-US')} ${data.material === 'usd' ? '$' : 'د.ع'}` : `$${data.price?.toLocaleString('en-US')}`;
+                        let totalStr = isCurrency ? '-' : `$${data.total?.toLocaleString('en-US')}`;
+
                         const row = document.createElement('tr');
                         row.className = "hover:bg-slate-800/40 transition-colors";
                         row.innerHTML = `
-                            <td class="p-2.5 text-slate-400">${formatDateTime12H(data.deletedAt)} <br><span class="text-[10px] text-amber-500">(${remainingDays} ڕۆژی ماوە)</span></td>
-                            <td class="p-2.5 font-semibold text-white">${data.name}</td>
-                            <td class="p-2.5">$${data.total || data.price}</td>
-                            <td class="p-2.5">
-                                <button onclick="restoreTransaction('${docSnap.id}')" class="bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all">گەڕاندنەوە</button>
+                            <td class="p-2.5 font-bold text-yellow-500">${matName}</td>
+                            <td class="p-2.5 font-semibold text-white">${data.name || '-'}</td>
+                            <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${typeClass}">${typeText}</span></td>
+                            <td class="p-2.5 font-mono">${weightStr}</td>
+                            <td class="p-2.5 font-mono">${priceStr}</td>
+                            <td class="p-2.5 font-mono text-emerald-400 font-bold">${totalStr}</td>
+                            <td class="p-2.5 text-slate-400 text-[10px]">${formatDateTime12H(data.date)}</td>
+                            <td class="p-2.5 text-slate-400 text-[10px]">${formatDateTime12H(data.deletedAt)} <br><span class="text-amber-500">(${remainingDays} ڕۆژی ماوە)</span></td>
+                            <td class="p-2.5 flex items-center justify-center gap-1.5">
+                                <button onclick="restoreTransaction('${docSnap.id}')" title="گەڕاندنەوە" class="bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600 hover:text-white px-2 py-1 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1">
+                                    <i class="fa-solid fa-rotate-left"></i> گەڕاندنەوە
+                                </button>
+                                <button onclick="permanentlyDeleteTransaction('${docSnap.id}')" title="سڕینەوەی تەواوەتی" class="bg-rose-600/20 text-rose-400 hover:bg-rose-600 hover:text-white px-2 py-1 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1">
+                                    <i class="fa-solid fa-trash-can"></i> سڕینەوەی یەکجارەکی
+                                </button>
                             </td>
                         `;
                         trashBody.appendChild(row);
@@ -858,6 +915,16 @@
                 await deleteDoc(trashDocRef);
 
                 alert("مامەڵەکە بە سەرکەوتوویی گەڕێنرایەوە!");
+                loadTrashData();
+            } catch(e) { alert("هەڵە: " + e.message); }
+        };
+
+        // سڕینەوەی یەکجارەکی
+        window.permanentlyDeleteTransaction = async (trashId) => {
+            if(!confirm("دڵنیای لە سڕینەوەی یەکجارەکی ئەم مامەڵەیە؟ بە هیچ شێوەیەک ناگەڕێتەوە.")) return;
+            try {
+                await deleteDoc(doc(db, "trash_transactions", trashId));
+                alert("مامەڵەکە بەیەکجارەکی سڕایەوە!");
                 loadTrashData();
             } catch(e) { alert("هەڵە: " + e.message); }
         };
@@ -1214,4 +1281,3 @@
     </script>
 </body>
 </html>
-

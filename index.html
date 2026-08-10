@@ -1,3 +1,4 @@
+ئەمەش کۆدی تەواو و ڕێکخراوی پڕۆژەکەت (Anas Gold)، کە بە شێوازێکی مۆدێرن و وەک سیستەمێکی ڕاستەوخۆی بۆرسە و بەڕێوەبردن دیزاین کراوە و هەموو هەڵەکانت تێیدا ڕاستکراونەتەوە:
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
@@ -156,7 +157,7 @@
         </div>
     </header>
 
-    <!-- TRASH MODAL (چاککراو بە گشت زانیارییەکان و سڕینەوەی یەکجارەکی) -->
+    <!-- TRASH MODAL -->
     <div id="trash-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
         <div class="glass-card max-w-4xl w-full p-6 rounded-2xl border border-slate-800 shadow-2xl max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
@@ -522,7 +523,6 @@
         let baseStocks = { gold: 0, silver_marmar: 0, silver_palm: 0, gold_coin: 0, copper: 0, usd: 0, iqd: 0 };
         let activeSymbol = 'OANDA:XAUUSD';
 
-        // یاریدەدەری وەرگێڕانی ناوی کایەکان
         function getMaterialName(matKey) {
             const names = {
                 'gold': 'ئاڵتون',
@@ -813,7 +813,7 @@
                 const batch = writeBatch(db);
                 transSnapshot.forEach((docSnap) => batch.delete(docSnap.ref));
                 await batch.commit();
-                try { await deleteDoc(doc(doc(db, "user_settings", currentUser.uid))); } catch(e) {}
+                try { await deleteDoc(doc(db, "user_settings", currentUser.uid)); } catch(e) {}
                 await deleteUser(currentUser);
                 alert("ئەکاونت سڕایەوە.");
             } catch(err) { alert("هەڵە: " + err.message); }
@@ -827,7 +827,6 @@
 
         window.closeTrashModal = () => document.getElementById('trash-modal').classList.add('hidden');
 
-        // خستنەڕووی زانیارییەکان بەتەواوی لە بەشی سڕاوەکاندا
         async function loadTrashData() {
             if (!currentUser) return;
             const trashBody = document.getElementById('trash-table-body');
@@ -919,7 +918,6 @@
             } catch(e) { alert("هەڵە: " + e.message); }
         };
 
-        // سڕینەوەی یەکجارەکی
         window.permanentlyDeleteTransaction = async (trashId) => {
             if(!confirm("دڵنیای لە سڕینەوەی یەکجارەکی ئەم مامەڵەیە؟ بە هیچ شێوەیەک ناگەڕێتەوە.")) return;
             try {
@@ -1281,3 +1279,4 @@
     </script>
 </body>
 </html>
+
